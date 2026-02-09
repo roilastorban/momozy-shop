@@ -6,26 +6,28 @@
 
 /*
 ==========================================================================
-【AI HANDOVER NOTE】
+【MOMOZY SHOP - DESIGN SYSTEM】
 1. DESIGN PHILOSOPHY:
-   - Brutalisme Élite: This design follows a 'Strict Grid' approach inspired by adidasarena.com. It rejects all rounded corners in favor of 0px radii to convey aggression, precision, and high-end streetwear authority.
-   - Cinematic Noir: The interface uses a deep Onyx base with high-contrast white typography to make product photography pop like a luxury lookbook.
-   - Modular Surfaces: Content is organized in rigid rectangular blocks with 1px borders, simulating a high-tech modular dashboard for the 'Momozy Gang' elite.
+   - Brutalisme Élite: Strict Grid approach inspired by adidasarena.com
+   - Cinematic Noir: Deep Onyx base with high-contrast white typography
+   - Modular Surfaces: Rigid rectangular blocks with 1px borders
 
 2. TYPOGRAPHY:
-   - Display (Syne): Used for H1/H2 titles. Its ultra-wide, geometric architecture commands respect and aligns with the 'Streetwear' aesthetic.
-   - Sans (Inter): Used for UI elements and product descriptions to ensure maximum readability on mobile devices (90% of traffic).
-   - Mono (JetBrains Mono): Reserved for technical data like prices (CFA), stock counts, and SKU numbers to reinforce the 'Premium/Industrial' feel.
+   - Display (Syne): H1/H2 titles - ultra-wide, geometric architecture
+   - Sans (Inter): UI elements and product descriptions
+   - Mono (JetBrains Mono): Technical data (prices, stock counts, SKU)
 
-3. COLOR SYSTEM:
-   - Core Palette: Monochrome dominance. Black (#0D0D0D) represents exclusivity; White (#FFFFFF) represents clarity.
-   - Crimson Accent: OKLCH(0.55 0.22 25) is used sparingly for 'Sold Out' badges, 'Limited Drop' alerts, and critical CTAs to create urgency.
-   - Glassmorphism 2.0: Applied to the Side-Cart and Navigation overlays using a 1px border and backdrop-blur to maintain depth without breaking the brutalist grid.
+3. COLOR SYSTEM (DARK MODE):
+   - Background: oklch(0.05 0 0) - Deep black
+   - Foreground: oklch(0.98 0 0) - Pure white
+   - Cards: oklch(0.08 0 0) - Slightly lighter black
+   - Borders: oklch(0.2 0 0) - Dark gray
+   - Accent: Crimson oklch(0.55 0.22 25) for urgency
 
 4. USAGE GUIDE:
-   - Layout: Full-width bento grids. Use 'border-1px' consistently. No shadows; use rim-light (inner borders) for depth.
-   - Hover Effects: Invert colors immediately (Black to White) with 0.1s duration for an 'aggressive' tactile response.
-   - Mobile UX: Large touch targets, sticky 'Buy via WhatsApp' floating buttons, and horizontal snap-scroll for celebrity galleries.
+   - Layout: Full-width bento grids with 1px borders
+   - Hover Effects: Invert colors with 0.1s duration
+   - Mobile UX: Large touch targets, sticky WhatsApp button
 ==========================================================================
 */
 
@@ -37,64 +39,25 @@
   /* Radius */
   --radius: 0px;
 
-  /* Core UI Tokens */
-  --background: oklch(0.98 0 0);
-  --foreground: oklch(0.12 0 0);
-  --card: oklch(0.95 0 0);
-  --card-foreground: oklch(0.12 0 0);
-  --popover: oklch(0.98 0 0);
-  --popover-foreground: oklch(0.12 0 0);
-  --primary: oklch(0.12 0 0);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.9 0 0);
-  --secondary-foreground: oklch(0.12 0 0);
-  --muted: oklch(0.92 0 0);
-  --muted-foreground: oklch(0.4 0 0);
-  --accent: oklch(0.12 0 0);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.12 0 0);
-  --input: oklch(0.85 0 0);
-  --ring: oklch(0.12 0 0);
-  
-  /* Chart Tokens */
-  --chart-1: oklch(0.2 0 0);
-  --chart-2: oklch(0.4 0 0);
-  --chart-3: oklch(0.6 0 0);
-  --chart-4: oklch(0.55 0.22 25);
-  --chart-5: oklch(0.8 0 0);
-  
-  /* Sidebar Tokens */
-  --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0.12 0 0);
-  --sidebar-primary: oklch(0.12 0 0);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.9 0 0);
-  --sidebar-accent-foreground: oklch(0.12 0 0);
-  --sidebar-border: oklch(0.9 0 0);
-  --sidebar-ring: oklch(0.12 0 0);
-}
-
-.dark {
-  --background: oklch(0.12 0 0);
+  /* Core UI Tokens - DARK MODE */
+  --background: oklch(0.05 0 0);
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.15 0 0);
+  --card: oklch(0.08 0 0);
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.12 0 0);
+  --popover: oklch(0.05 0 0);
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.12 0 0);
-  --secondary: oklch(0.2 0 0);
+  --primary-foreground: oklch(0.05 0 0);
+  --secondary: oklch(0.12 0 0);
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0 0);
+  --muted: oklch(0.15 0 0);
   --muted-foreground: oklch(0.6 0 0);
   --accent: oklch(0.98 0 0);
-  --accent-foreground: oklch(0.12 0 0);
+  --accent-foreground: oklch(0.05 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.25 0 0);
-  --input: oklch(0.25 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.12 0 0);
   --ring: oklch(0.98 0 0);
   
   /* Chart Tokens */
@@ -105,11 +68,50 @@
   --chart-5: oklch(0.3 0 0);
   
   /* Sidebar Tokens */
-  --sidebar: oklch(0.1 0 0);
+  --sidebar: oklch(0.05 0 0);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.98 0 0);
-  --sidebar-primary-foreground: oklch(0.12 0 0);
-  --sidebar-accent: oklch(0.18 0 0);
+  --sidebar-primary-foreground: oklch(0.05 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.2 0 0);
+  --sidebar-ring: oklch(0.98 0 0);
+}
+
+.dark {
+  --background: oklch(0.05 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.08 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.05 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.98 0 0);
+  --primary-foreground: oklch(0.05 0 0);
+  --secondary: oklch(0.12 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.98 0 0);
+  --accent-foreground: oklch(0.05 0 0);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.12 0 0);
+  --ring: oklch(0.98 0 0);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.98 0 0);
+  --chart-2: oklch(0.7 0 0);
+  --chart-3: oklch(0.55 0.22 25);
+  --chart-4: oklch(0.4 0 0);
+  --chart-5: oklch(0.3 0 0);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.05 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.98 0 0);
+  --sidebar-primary-foreground: oklch(0.05 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.2 0 0);
   --sidebar-ring: oklch(0.98 0 0);
@@ -201,4 +203,19 @@
   ::-webkit-scrollbar-thumb {
     @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40;
   }
+}
+
+/* Grayscale to Color Transition */
+.grayscale-to-color {
+  filter: grayscale(100%);
+  transition: filter 0.6s ease-out;
+}
+
+.grayscale-to-color.visible {
+  filter: grayscale(0%);
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, select, textarea {
+  @apply transition-colors duration-200;
 }

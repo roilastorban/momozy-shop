@@ -211,6 +211,8 @@ export default defineConfig(({ mode }) => {
     server: {
       host: "::",
       port: 8080,
+      // Allow all hosts to access the dev server (required for public URLs)
+      allowedHosts: 'all',
     },
     plugins: [
       tailwindcss(),
