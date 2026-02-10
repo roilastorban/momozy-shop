@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Truck, MapPin, Clock, DollarSign, CheckCircle2, AlertCircle } from "lucide-react";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 
 /**
  * Delivery Page - Shipping Information & Delivery Options
@@ -76,37 +77,31 @@ export default function Delivery() {
     <div className="min-h-screen bg-background text-foreground pt-20 pb-20">
       {/* Hero Section */}
       <section className="container mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
-            LIVRAISON & TARIFS
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            Livraison rapide et sécurisée dans tout le Bénin et la région WAEMU. Suivi en temps réel de votre commande.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <ScratchBrutal intensity="brutal" index={0}>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 uppercase">
+              LIVRAISON & TARIFS
+            </h1>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="medium" index={1}>
+            <p className="text-lg text-muted-foreground mb-8 uppercase font-mono">
+              Livraison rapide et sécurisée dans tout le Bénin et la région WAEMU. Suivi en temps réel de votre commande.
+            </p>
+          </ScratchBrutal>
+        </div>
       </section>
 
       {/* Delivery Zones */}
       <section className="container mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
-        >
+        <div className="mb-12">
           <h2 className="text-3xl font-black tracking-tighter mb-12">
             ZONES DE LIVRAISON
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {deliveryZones.map((zone, idx) => (
+              <ScratchBrutal key={zone.zone} index={idx} intensity="medium">
               <Card
-                key={zone.zone}
-                className="p-6 border border-border bg-card hover:border-primary transition-all duration-300"
+                className="h-full p-6 border border-border bg-card hover:border-primary transition-all duration-300"
               >
                 <div className="flex items-start gap-4 mb-4">
                   <div className="text-primary">{zone.icon}</div>
@@ -128,9 +123,10 @@ export default function Delivery() {
                   </div>
                 </div>
               </Card>
+              </ScratchBrutal>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Payment Methods */}
@@ -173,12 +169,7 @@ export default function Delivery() {
 
       {/* Process Timeline */}
       <section className="container mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
-        >
+        <div className="mb-12">
           <h2 className="text-3xl font-black tracking-tighter mb-12">
             PROCESSUS DE COMMANDE
           </h2>
@@ -190,11 +181,10 @@ export default function Delivery() {
               { step: 4, title: "Livraison", description: "Votre colis est en route vers vous" },
               { step: 5, title: "Réception", description: "Vous recevez votre commande et payez si nécessaire" },
             ].map((item, idx) => (
-              <motion.div
+              <ScratchBrutal
                 key={item.step}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                index={idx}
+                intensity="light"
                 className="flex gap-4 items-start"
               >
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-background font-bold shrink-0">
@@ -206,10 +196,10 @@ export default function Delivery() {
                     {item.description}
                   </p>
                 </div>
-              </motion.div>
+              </ScratchBrutal>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* FAQ */}

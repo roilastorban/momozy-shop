@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 
 /**
  * FAQ Page - Frequently Asked Questions
@@ -140,45 +141,40 @@ export default function FAQ() {
     <div className="min-h-screen bg-background text-foreground pt-20 pb-20">
       {/* Hero Section */}
       <section className="container mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
-            QUESTIONS FRÉQUENTES
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            Trouvez les réponses à vos questions sur nos produits, commandes, livraison et bien plus.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <ScratchBrutal intensity="brutal" index={0}>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 uppercase">
+              QUESTIONS FRÉQUENTES
+            </h1>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="medium" index={1}>
+            <p className="text-lg text-muted-foreground mb-8 uppercase font-mono">
+              Trouvez les réponses à vos questions sur nos produits, commandes, livraison et bien plus.
+            </p>
+          </ScratchBrutal>
+        </div>
       </section>
 
       {/* FAQ Categories */}
       <section className="container mx-auto px-4">
         <div className="space-y-12">
           {faqCategories.map((category, catIdx) => (
-            <motion.div
-              key={category.category}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: catIdx * 0.1 }}
-            >
-              <h2 className="text-2xl font-bold mb-6 pb-4 border-b border-border">
-                {category.category}
-              </h2>
+            <div key={category.category}>
+              <ScratchBrutal intensity="light" index={catIdx}>
+                <h2 className="text-2xl font-black mb-6 pb-4 border-b border-border uppercase tracking-tight">
+                  {category.category}
+                </h2>
+              </ScratchBrutal>
               <div className="space-y-3">
                 {category.questions.map((item, qIdx) => {
                   const itemIndex = catIdx * 100 + qIdx;
                   const isExpanded = expandedIndex === itemIndex;
 
                   return (
-                    <motion.div
+                    <ScratchBrutal
                       key={qIdx}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3, delay: qIdx * 0.05 }}
+                      index={qIdx}
+                      intensity="light"
                     >
                       <Card
                         className="border border-border bg-card overflow-hidden cursor-pointer hover:border-primary transition-colors"
@@ -214,11 +210,11 @@ export default function FAQ() {
                           </div>
                         </motion.div>
                       </Card>
-                    </motion.div>
+                    </ScratchBrutal>
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from 'lucide-react';
-import { formatPrice } from '@/lib/index';
+import { X, Minus, Plus, Trash2, ShoppingBag, CreditCard } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { formatPrice, ROUTE_PATHS } from '@/lib/index';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -13,8 +14,14 @@ interface CartDrawerProps {
 }
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { items, updateQuantity, removeItem, getTotalPrice, checkoutWhatsApp } = useCart();
+  const { items, updateQuantity, removeItem, getTotalPrice } = useCart();
   const totalPrice = getTotalPrice();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    onClose();
+    navigate(ROUTE_PATHS.CHECKOUT);
+  };
 
   return (
     <AnimatePresence>
@@ -68,9 +75,9 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     </p>
                     <Button 
                       onClick={onClose} 
-                      className="w-full bg-foreground text-background hover:bg-white hover:text-black"
+                      className="w-full bg-foreground text-background hover:bg-white hover:text-black font-bold uppercase"
                     >
-                      DÉCOUVRIR LA COLLECTION
+                      Retour
                     </Button>
                   </div>
                 ) : (
@@ -155,12 +162,12 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <div className="grid gap-3 pt-2">
                     <Button
                       size="lg"
-                      onClick={checkoutWhatsApp}
-                      className="h-14 w-full bg-[#25D366] text-white hover:bg-[#128C7E] border-none flex items-center justify-center gap-3 group"
+                      onClick={handleCheckout}
+                      className="h-14 w-full bg-primary text-primary-foreground hover:bg-foreground hover:text-background border-none flex items-center justify-center gap-3 group"
                     >
-                      <MessageCircle className="h-5 w-5 fill-current" />
+                      <CreditCard className="h-5 w-5" />
                       <span className="font-bold tracking-tight uppercase">
-                        Commander via WhatsApp
+                        Payer ma commande
                       </span>
                     </Button>
                     <Button

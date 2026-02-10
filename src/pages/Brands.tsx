@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Filter, ShoppingBag } from 'lucide-react';
 import { BrandGrid } from '@/components/BrandGrid';
 import { ProductCard } from '@/components/ProductCard';
+import { ScratchBrutal } from '@/components/ScratchBrutal';
+import { GrayscaleImage } from '@/components/GrayscaleImage';
 import { 
   BRANDS, 
   PRODUCTS, 
@@ -29,31 +31,33 @@ const BrandsPage: React.FC = () => {
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
-          <img 
+          <GrayscaleImage
             src={IMAGES.LUXURY_TEXTURE_7} 
             alt="Luxury Texture" 
-            className="w-full h-full object-cover opacity-30 grayscale"
+            className="w-full h-full object-cover opacity-30"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/60 to-background" />
         </div>
 
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="inline-block py-1 px-3 mb-6 border border-primary text-[10px] font-mono tracking-[0.2em] uppercase">
-              Curated Elite Selection
-            </span>
-            <h1 className="text-6xl md:text-8xl font-black font-heading tracking-tighter mb-6 uppercase">
-              LES <span className="text-outline text-transparent stroke-primary">MAISONS</span>
-            </h1>
-            <p className="max-w-2xl mx-auto text-muted-foreground text-sm md:text-base leading-relaxed">
-              L'excellence du streetwear mondial sélectionnée pour le Momozy Gang. 
-              Des pièces rares issues des créateurs les plus influents de la scène urbaine contemporaine.
-            </p>
-          </motion.div>
+          <div>
+            <ScratchBrutal intensity="light" index={0}>
+              <span className="inline-block py-1 px-3 mb-6 border border-primary text-[10px] font-mono tracking-[0.2em] uppercase">
+                Curated Elite Selection
+              </span>
+            </ScratchBrutal>
+            <ScratchBrutal intensity="brutal" index={1}>
+              <h1 className="text-6xl md:text-8xl font-black font-heading tracking-tighter mb-6 uppercase">
+                LES <span className="text-outline text-transparent stroke-primary">MAISONS</span>
+              </h1>
+            </ScratchBrutal>
+            <ScratchBrutal intensity="medium" index={2}>
+              <p className="max-w-2xl mx-auto text-muted-foreground text-sm md:text-base leading-relaxed">
+                L'excellence du streetwear mondial sélectionnée pour le Momozy Gang.
+                Des pièces rares issues des créateurs les plus influents de la scène urbaine contemporaine.
+              </p>
+            </ScratchBrutal>
+          </div>
         </div>
 
         {/* Geometric Decorative Elements */}
@@ -91,26 +95,32 @@ const BrandsPage: React.FC = () => {
             
             {/* Brand Filter Buttons Overlay (Custom for this page) */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-px bg-border border border-border mt-1">
-              {BRANDS.map((brand) => (
-                <button
+              {BRANDS.map((brand, index) => (
+                <ScratchBrutal
                   key={brand.slug}
-                  onClick={() => setSelectedBrand(brand.slug)}
-                  className={`group relative p-6 text-center transition-all duration-300 ${
-                    selectedBrand === brand.slug 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-background hover:bg-muted'
-                  }`}
+                  index={index}
+                  intensity="light"
+                  className="bg-background"
                 >
-                  <span className="relative z-10 text-[10px] font-black uppercase tracking-widest">
-                    {brand.name}
-                  </span>
-                  {selectedBrand === brand.slug && (
-                    <motion.div 
-                      layoutId="activeBrand"
-                      className="absolute inset-0 border-2 border-primary-foreground/20"
-                    />
-                  )}
-                </button>
+                  <button
+                    onClick={() => setSelectedBrand(brand.slug)}
+                    className={`w-full group relative p-6 text-center transition-all duration-300 ${
+                      selectedBrand === brand.slug
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-background hover:bg-muted'
+                    }`}
+                  >
+                    <span className="relative z-10 text-[10px] font-black uppercase tracking-widest">
+                      {brand.name}
+                    </span>
+                    {selectedBrand === brand.slug && (
+                      <motion.div
+                        layoutId="activeBrand"
+                        className="absolute inset-0 border-2 border-primary-foreground/20"
+                      />
+                    )}
+                  </button>
+                </ScratchBrutal>
               ))}
             </div>
           </div>
@@ -148,14 +158,7 @@ const BrandsPage: React.FC = () => {
             >
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <ProductCard product={product} />
-                  </motion.div>
+                  <ProductCard key={product.id} product={product} index={index} />
                 ))
               ) : (
                 <div className="col-span-full py-32 text-center border border-dashed border-border">

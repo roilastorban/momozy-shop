@@ -21,6 +21,7 @@ import {
   Product
 } from "@/lib/index";
 import { ProductCard } from "@/components/ProductCard";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -118,7 +119,7 @@ export default function ProductDetail() {
           
           {/* Left Column: Image Gallery */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="relative aspect-[4/5] bg-muted overflow-hidden border border-border group">
+            <ScratchBrutal intensity="medium" className="relative aspect-[4/5] bg-muted overflow-hidden border border-border group">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -146,7 +147,7 @@ export default function ProductDetail() {
               <button className="absolute bottom-4 right-4 p-3 bg-background/50 backdrop-blur-md border border-white/20 hover:bg-background transition-colors">
                 <Maximize2 size={20} />
               </button>
-            </div>
+            </ScratchBrutal>
 
             {/* Thumbnails */}
             <div className="grid grid-cols-4 gap-4">
@@ -169,12 +170,16 @@ export default function ProductDetail() {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28 space-y-8">
               <div>
-                <h2 className="text-sm font-mono text-muted-foreground mb-2 uppercase tracking-tighter">
-                  {product.brand}
-                </h2>
-                <h1 className="text-3xl md:text-5xl font-bold font-heading leading-tight mb-4 uppercase">
-                  {product.name}
-                </h1>
+                <ScratchBrutal intensity="light" index={0}>
+                  <h2 className="text-sm font-mono text-muted-foreground mb-2 uppercase tracking-tighter">
+                    {product.brand}
+                  </h2>
+                </ScratchBrutal>
+                <ScratchBrutal intensity="medium" index={1}>
+                  <h1 className="text-3xl md:text-5xl font-bold font-heading leading-tight mb-4 uppercase">
+                    {product.name}
+                  </h1>
+                </ScratchBrutal>
                 <div className="flex items-center gap-4">
                   <span className="text-2xl font-mono font-bold">
                     {formatPrice(product.price)}
@@ -305,8 +310,8 @@ export default function ProductDetail() {
               </Button>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              {relatedProducts.map((p, index) => (
+                <ProductCard key={p.id} product={p} index={index} />
               ))}
             </div>
           </section>

@@ -33,14 +33,18 @@ export function SocialProofMarquee() {
       </div>
 
       <motion.div
-        className="flex whitespace-nowrap items-center"
+        className="flex whitespace-nowrap items-center cursor-grab active:cursor-grabbing"
         initial={{ x: 0 }}
         animate={{ x: "-33.333%" }}
         transition={{
-          duration: 40,
+          duration: 20, // Vitesse doublée (était 40)
           ease: "linear",
           repeat: Infinity,
         }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }} // Keep it mostly in place but allow dragging
+        dragElastic={0.05}
+        whileTap={{ scale: 0.98 }}
       >
         {displayItems.map((name, index) => (
           <div key={index} className="flex items-center gap-12 md:gap-24 px-8 md:px-16">

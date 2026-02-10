@@ -100,7 +100,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Badge - New Collection */}
-            <span className="inline-block py-1 px-4 border border-white/20 text-xs font-mono tracking-widest uppercase mb-6 bg-white/5 backdrop-blur-sm">
+            <span className="inline-block py-1 px-4 border border-white/20 text-xs font-mono tracking-widest uppercase mb-6 bg-white/10">
               Nouvelle Collection 2026
             </span>
             
@@ -108,9 +108,9 @@ export function HeroSection() {
             <ScratchBrutal 
               intensity="medium"
               delay={0.3}
-              className="inline-block"
+              className="inline-block w-full"
             >
-              <h1 className="text-6xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-8 font-syne">
+              <h1 className="text-5xl sm:text-7xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-8 font-syne break-words">
                 <span className="block">Dominez</span>
                 <span className="block text-outline-white text-transparent">La Rue.</span>
               </h1>
@@ -123,14 +123,14 @@ export function HeroSection() {
             </p>
 
             {/* CTA Buttons with Scratch Animations */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               {/* Primary CTA - Shop Drop (Medium intensity scratch) */}
-              <ScratchBrutal intensity="medium" delay={1.5}>
+              <ScratchBrutal intensity="medium" delay={1.5} className="w-full sm:w-auto">
                 <Link to={ROUTE_PATHS.SHOP}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-primary text-primary-foreground px-10 py-5 font-bold uppercase tracking-tighter flex items-center justify-between group min-w-[240px]"
+                    className="w-full bg-primary text-primary-foreground px-8 py-5 font-bold uppercase tracking-tighter flex items-center justify-between group min-w-0 sm:min-w-[240px]"
                   >
                     Shopper le Drop
                     <ArrowRight className="ml-4 transition-transform group-hover:translate-x-2" />
@@ -139,11 +139,11 @@ export function HeroSection() {
               </ScratchBrutal>
               
               {/* Secondary CTA - Momozy Gang (Light intensity scratch) */}
-              <ScratchBrutal intensity="light" delay={1.7}>
+              <ScratchBrutal intensity="light" delay={1.7} className="w-full sm:w-auto">
                 <Link to={ROUTE_PATHS.BRANDS}>
                   <motion.button
                     whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
-                    className="border border-white/20 px-10 py-5 font-bold uppercase tracking-tighter backdrop-blur-sm"
+                    className="w-full border border-white/20 px-8 py-5 font-bold uppercase tracking-tighter"
                   >
                     Le Momozy Gang
                   </motion.button>

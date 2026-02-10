@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { ChevronRight, Ruler, Shirt, Zap } from "lucide-react";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 
 /**
  * Guide Page - Size Guide & Product Information
@@ -70,31 +71,26 @@ export default function Guide() {
     <div className="min-h-screen bg-background text-foreground pt-20 pb-20">
       {/* Hero Section */}
       <section className="container mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
-            GUIDE DES TAILLES
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            Trouvez votre taille parfaite avec nos guides détaillés. Tous nos produits sont conçus pour l'élite du streetwear.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <ScratchBrutal intensity="brutal" index={0}>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 uppercase">
+              GUIDE DES TAILLES
+            </h1>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="medium" index={1}>
+            <p className="text-lg text-muted-foreground mb-8 uppercase font-mono">
+              Trouvez votre taille parfaite avec nos guides détaillés. Tous nos produits sont conçus pour l'élite du streetwear.
+            </p>
+          </ScratchBrutal>
+        </div>
       </section>
 
       {/* Size Guides */}
       <section className="container mx-auto px-4 mb-20">
         <div className="space-y-12">
           {sizeGuides.map((guide, idx) => (
-            <motion.div
-              key={guide.category}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-            >
+            <div key={guide.category}>
+              <ScratchBrutal intensity="light" index={idx}>
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                 <Ruler className="w-6 h-6 text-primary" />
                 {guide.category}
@@ -132,7 +128,8 @@ export default function Guide() {
                   </tbody>
                 </table>
               </div>
-            </motion.div>
+              </ScratchBrutal>
+            </div>
           ))}
         </div>
       </section>
