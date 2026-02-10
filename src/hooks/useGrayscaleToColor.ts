@@ -39,8 +39,8 @@ export function useGrayscaleToColor() {
         }
       },
       {
-        // Trigger slightly before element becomes visible
-        margin: '-50px',
+        // Trigger slightly before element becomes visible (positive margin)
+        rootMargin: '100px',
         threshold: 0,
       }
     );

@@ -12,7 +12,7 @@ import { toast } from "sonner";
 interface ProductCardProps {
   product: Product;
   className?: string;
-  index?: number;
+  cascadeIndex?: number;
 }
 
 /**
@@ -28,7 +28,7 @@ interface ProductCardProps {
  * - Scratch brutal animation on entry
  * - Brutalist geometric design elements
  */
-export function ProductCard({ product, className }: ProductCardProps) {
+export function ProductCard({ product, className, cascadeIndex }: ProductCardProps) {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [isHovered, setIsHovered] = useState(false);
@@ -40,8 +40,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   /**
    * Handle "Ajouter au panier" (Add to Cart) action
-   * - For single-size items (accessories): add directly
-   * - For multi-size items: navigate to product detail for size selection
    */
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -67,7 +65,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   };
 
   return (
-    <ScratchBrutal intensity="medium" index={index}>
+    <ScratchBrutal intensity="medium" cascadeIndex={cascadeIndex}>
       <motion.div
         className={cn(
           "group relative flex flex-col border border-border bg-background rounded-none transition-all duration-300",

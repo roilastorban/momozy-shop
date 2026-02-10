@@ -3,14 +3,6 @@
  * 
  * A reusable component that applies "scratch brutal" animations to elements.
  * Elements arrive from left/right with random rotation, then stabilize with a slight tilt.
- * 
- * Features:
- * - 3 intensity levels: Light (100px, 3°), Medium (200px, 6°), Brutal (300px, 12°)
- * - Random arrival direction (left or right)
- * - Deterministic delay for cascade/wave effect based on index
- * - Spring physics for aggressive movement (Damping 20-25, Stiffness 80-120)
- * - Hover effect: elements straighten to 0° rotation
- * - Viewport-based triggering with Intersection Observer (margin -100px)
  */
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -21,8 +13,8 @@ export type Intensity = 'light' | 'medium' | 'brutal';
 interface ScratchBrutalProps {
   children: React.ReactNode;
   intensity?: Intensity;
-  index?: number; // Used for deterministic cascade effect
-  delay?: number; // Base delay if index is not provided
+  cascadeIndex?: number; // Renamed from index to avoid potential naming conflicts
+  delay?: number; // Base delay if cascadeIndex is not provided
   className?: string;
   once?: boolean;
 }
@@ -34,7 +26,7 @@ const INTENSITY_CONFIG: Record<Intensity, { distance: number; rotation: number }
   brutal: { distance: 300, rotation: 12 },
 };
 
-// Spring physics configuration (damping 20–25, stiffness 80–120)
+// Spring physics configuration
 const SPRING_CONFIG = {
   damping: 22,
   stiffness: 100,
@@ -44,7 +36,7 @@ const SPRING_CONFIG = {
 export function ScratchBrutal({
   children,
   intensity = 'medium',
-  index = 0,
+  cascadeIndex = 0,
   delay = 0,
   className = '',
   once = true,
@@ -64,10 +56,15 @@ export function ScratchBrutal({
 
   const config = INTENSITY_CONFIG[intensity];
 
-  // Calculate total delay: base delay + (index * stagger)
-  const totalDelay = (delay || 0) + (index * 0.1);
+  // Calculate total delay: base delay + (cascadeIndex * stagger)
+  const totalDelay = (delay || 0) + (cascadeIndex * 0.1);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && (!hasAnimated || !once)) {
@@ -76,7 +73,9 @@ export function ScratchBrutal({
         }
       },
       {
-        margin: '-100px', // Trigger 100px before visibility
+        // Positive margin triggers animation BEFORE the element enters the viewport
+        // This ensures elements at the top are visible immediately.
+        rootMargin: '100px',
         threshold: 0,
       }
     );

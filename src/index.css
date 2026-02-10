@@ -7,27 +7,6 @@
 /*
 ==========================================================================
 【MOMOZY SHOP - DESIGN SYSTEM】
-1. DESIGN PHILOSOPHY:
-   - Brutalisme Élite: Strict Grid approach inspired by adidasarena.com
-   - Cinematic Noir: Deep Onyx base with high-contrast white typography
-   - Modular Surfaces: Rigid rectangular blocks with 1px borders
-
-2. TYPOGRAPHY:
-   - Display (Syne): H1/H2 titles - ultra-wide, geometric architecture
-   - Sans (Inter): UI elements and product descriptions
-   - Mono (JetBrains Mono): Technical data (prices, stock counts, SKU)
-
-3. COLOR SYSTEM (DARK MODE):
-   - Background: oklch(0.05 0 0) - Deep black
-   - Foreground: oklch(0.98 0 0) - Pure white
-   - Cards: oklch(0.08 0 0) - Slightly lighter black
-   - Borders: oklch(0.2 0 0) - Dark gray
-   - Accent: Crimson oklch(0.55 0.22 25) for urgency
-
-4. USAGE GUIDE:
-   - Layout: Full-width bento grids with 1px borders
-   - Hover Effects: Invert colors with 0.1s duration
-   - Mobile UX: Large touch targets, sticky WhatsApp button
 ==========================================================================
 */
 
@@ -39,82 +18,97 @@
   /* Radius */
   --radius: 0px;
 
-  /* Core UI Tokens - DARK MODE */
-  --background: oklch(0.05 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.08 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.05 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.05 0 0);
-  --secondary: oklch(0.12 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.98 0 0);
-  --accent-foreground: oklch(0.05 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.12 0 0);
-  --ring: oklch(0.98 0 0);
-  
-  /* Chart Tokens */
-  --chart-1: oklch(0.98 0 0);
-  --chart-2: oklch(0.7 0 0);
-  --chart-3: oklch(0.55 0.22 25);
-  --chart-4: oklch(0.4 0 0);
-  --chart-5: oklch(0.3 0 0);
-  
-  /* Sidebar Tokens */
-  --sidebar: oklch(0.05 0 0);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.98 0 0);
-  --sidebar-primary-foreground: oklch(0.05 0 0);
-  --sidebar-accent: oklch(0.15 0 0);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.2 0 0);
-  --sidebar-ring: oklch(0.98 0 0);
+  /* Core UI Tokens - DARK MODE (Hex fallback for better support) */
+  --background: #0d0d0d;
+  --foreground: #fafafa;
+  --card: #141414;
+  --card-foreground: #fafafa;
+  --popover: #0d0d0d;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0d0d0d;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #fafafa;
+  --accent-foreground: #0d0d0d;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #fafafa;
+}
+
+/* OKLCH values if supported */
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --background: oklch(0.05 0 0);
+    --foreground: oklch(0.98 0 0);
+    --card: oklch(0.08 0 0);
+    --card-foreground: oklch(0.98 0 0);
+    --popover: oklch(0.05 0 0);
+    --popover-foreground: oklch(0.98 0 0);
+    --primary: oklch(0.98 0 0);
+    --primary-foreground: oklch(0.05 0 0);
+    --secondary: oklch(0.12 0 0);
+    --secondary-foreground: oklch(0.98 0 0);
+    --muted: oklch(0.15 0 0);
+    --muted-foreground: oklch(0.6 0 0);
+    --accent: oklch(0.98 0 0);
+    --accent-foreground: oklch(0.05 0 0);
+    --destructive: oklch(0.55 0.22 25);
+    --destructive-foreground: oklch(0.98 0 0);
+    --border: oklch(0.2 0 0);
+    --input: oklch(0.12 0 0);
+    --ring: oklch(0.98 0 0);
+  }
 }
 
 .dark {
-  --background: oklch(0.05 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.08 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.05 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.05 0 0);
-  --secondary: oklch(0.12 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.98 0 0);
-  --accent-foreground: oklch(0.05 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.12 0 0);
-  --ring: oklch(0.98 0 0);
-  
-  /* Chart Tokens */
-  --chart-1: oklch(0.98 0 0);
-  --chart-2: oklch(0.7 0 0);
-  --chart-3: oklch(0.55 0.22 25);
-  --chart-4: oklch(0.4 0 0);
-  --chart-5: oklch(0.3 0 0);
-  
-  /* Sidebar Tokens */
-  --sidebar: oklch(0.05 0 0);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.98 0 0);
-  --sidebar-primary-foreground: oklch(0.05 0 0);
-  --sidebar-accent: oklch(0.15 0 0);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.2 0 0);
-  --sidebar-ring: oklch(0.98 0 0);
+  --background: #0d0d0d;
+  --foreground: #fafafa;
+  --card: #141414;
+  --card-foreground: #fafafa;
+  --popover: #0d0d0d;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0d0d0d;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #fafafa;
+  --accent-foreground: #0d0d0d;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #fafafa;
+}
+
+@supports (color: oklch(0% 0 0)) {
+  .dark {
+    --background: oklch(0.05 0 0);
+    --foreground: oklch(0.98 0 0);
+    --card: oklch(0.08 0 0);
+    --card-foreground: oklch(0.98 0 0);
+    --popover: oklch(0.05 0 0);
+    --popover-foreground: oklch(0.98 0 0);
+    --primary: oklch(0.98 0 0);
+    --primary-foreground: oklch(0.05 0 0);
+    --secondary: oklch(0.12 0 0);
+    --secondary-foreground: oklch(0.98 0 0);
+    --muted: oklch(0.15 0 0);
+    --muted-foreground: oklch(0.6 0 0);
+    --accent: oklch(0.98 0 0);
+    --accent-foreground: oklch(0.05 0 0);
+    --destructive: oklch(0.55 0.22 25);
+    --destructive-foreground: oklch(0.98 0 0);
+    --border: oklch(0.2 0 0);
+    --input: oklch(0.12 0 0);
+    --ring: oklch(0.98 0 0);
+  }
 }
 
 @theme inline {
