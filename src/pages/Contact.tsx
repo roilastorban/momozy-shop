@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -7,6 +6,7 @@ import { IMAGES } from "@/assets/images";
 import { SiWhatsapp, SiInstagram } from "react-icons/si";
 import { MapPin, Phone, Clock, Mail, Send, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 import {
   Form,
   FormControl,
@@ -93,23 +93,17 @@ const Contact = () => {
       {/* Hero Header */}
       <section className="container mx-auto px-4 mb-16">
         <div className="border-b border-white/10 pb-12">
-          <motion.h1
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="font-heading text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none"
-          >
-            Contactez <br />
-            <span className="text-white/40">Le Gang.</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-8 text-xl text-muted-foreground max-w-2xl uppercase font-mono"
-          >
-            L'épicentre du streetwear premium au Bénin. Une question sur un drop ? Un besoin de style ? On est là.
-          </motion.p>
+          <ScratchBrutal intensity="brutal" index={0}>
+            <h1 className="font-heading text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none">
+              Contactez <br />
+              <span className="text-white/40">Le Gang.</span>
+            </h1>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="medium" index={1}>
+            <p className="mt-8 text-xl text-muted-foreground max-w-2xl uppercase font-mono">
+              L'épicentre du streetwear premium au Bénin. Une question sur un drop ? Un besoin de style ? On est là.
+            </p>
+          </ScratchBrutal>
         </div>
       </section>
 
@@ -232,34 +226,33 @@ const Contact = () => {
               </h2>
               <div className="space-y-8">
                 {contactInfo.map((info, index) => (
-                  <motion.div
+                  <ScratchBrutal
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex gap-6 items-start group"
+                    index={index}
+                    intensity="light"
                   >
-                    <div className="bg-white/5 p-4 border border-white/10 transition-colors group-hover:bg-white group-hover:text-black">
-                      {info.icon}
+                    <div className="flex gap-6 items-start group">
+                      <div className="bg-white/5 p-4 border border-white/10 transition-colors group-hover:bg-white group-hover:text-black">
+                        {info.icon}
+                      </div>
+                      <div>
+                        <p className="uppercase font-mono text-xs text-muted-foreground mb-1">{info.label}</p>
+                        {info.link ? (
+                          <a
+                            href={info.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-lg font-bold hover:text-white/60 transition-colors flex items-center gap-2"
+                          >
+                            {info.value}
+                            <ArrowRight className="w-4 h-4" />
+                          </a>
+                        ) : (
+                          <p className="text-lg font-bold">{info.value}</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="uppercase font-mono text-xs text-muted-foreground mb-1">{info.label}</p>
-                      {info.link ? (
-                        <a
-                          href={info.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-lg font-bold hover:text-white/60 transition-colors flex items-center gap-2"
-                        >
-                          {info.value}
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                      ) : (
-                        <p className="text-lg font-bold">{info.value}</p>
-                      )}
-                    </div>
-                  </motion.div>
+                  </ScratchBrutal>
                 ))}
               </div>
             </div>

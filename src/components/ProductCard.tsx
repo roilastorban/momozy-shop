@@ -5,11 +5,14 @@ import { Plus, Eye, ShoppingBag, ArrowRight } from "lucide-react";
 import { Product, ROUTE_PATHS, formatPrice } from "@/lib/index";
 import { useCart } from "@/hooks/useCart";
 import { ScratchBrutal } from "./ScratchBrutal";
+import { useGrayscaleToColor } from "@/hooks/useGrayscaleToColor";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
   className?: string;
+  index?: number;
 }
 
 /**
@@ -29,6 +32,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [isHovered, setIsHovered] = useState(false);
+  const imageRef = useGrayscaleToColor();
 
   // Determine product status
   const isSoldOut = product.stockStatus === "sold-out";
@@ -43,13 +47,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     
-    if (product.sizes.length === 1 && product.sizes[0] === "Unique") {
-      // Single size - add directly to cart
-      addItem(product, "Unique");
-    } else {
-      // Multiple sizes - navigate to detail page for selection
-      navigate(ROUTE_PATHS.PRODUCT_DETAIL.replace(":id", product.id));
-    }
+    // Add the first available size directly (as requested "ajoute directement au panier")
+    const sizeToAdd = product.sizes[0] || "Unique";
+    addItem(product, sizeToAdd);
+
+    toast.success(`${product.name} (${sizeToAdd}) ajouté au panier`, {
+      className: "bg-foreground text-background rounded-none font-bold",
+    });
   };
 
   /**
@@ -63,7 +67,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   };
 
   return (
-    <ScratchBrutal intensity="light" delay={Math.random() * 5}>
+    <ScratchBrutal intensity="medium" index={index}>
       <motion.div
         className={cn(
           "group relative flex flex-col border border-border bg-background rounded-none transition-all duration-300",
@@ -110,10 +114,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
           >
             {/* Primary Image - Fades out on hover if secondary exists */}
             <img
+              ref={imageRef}
               src={product.image}
               alt={product.name}
               className={cn(
-                "w-full h-full object-cover transition-opacity duration-200",
+                "w-full h-full object-cover transition-all duration-500",
                 isHovered && product.secondaryImage ? "opacity-0" : "opacity-100"
               )}
             />
@@ -131,11 +136,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
             )}
           </Link>
 
-          {/* Action Buttons - Slide up from bottom on hover */}
+          {/* Action Buttons - Slide up from bottom on hover (Desktop) or always visible (Mobile) */}
           {!isSoldOut && (
             <div className={cn(
               "absolute inset-x-0 bottom-0 flex flex-col gap-2 p-3 bg-gradient-to-t from-black/90 to-transparent",
-              "transition-transform duration-200 transform translate-y-full group-hover:translate-y-0"
+              "transition-transform duration-200 transform translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0"
             )}>
               {/* Primary Button: "Acheter" (Buy/View Details) */}
               <button

@@ -2,8 +2,8 @@ import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
-import { ScratchAnimation, ScratchGrid } from "@/components/ScratchAnimation";
 import { PRODUCTS, CATEGORIES, BRANDS, Product } from "@/lib/index";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
 
 export default function Shop() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -95,23 +95,22 @@ export default function Shop() {
           {/* Desktop Filter Tabs */}
           <div className="hidden lg:flex items-center gap-2">
             {CATEGORIES.map((cat, index) => (
-              <ScratchAnimation 
+              <ScratchBrutal
                 key={cat.slug}
-                direction={index % 2 === 0 ? "left" : "right"}
-                delay={index * 0.1}
+                index={index}
                 intensity="light"
               >
                 <button
                   onClick={() => setActiveCategory(cat.slug)}
-                className={`px-4 py-2 text-xs font-bold uppercase tracking-tighter border transition-all ${
-                  activeCategory === cat.slug
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-transparent text-foreground border-border hover:border-primary"
-                }`}
-              >
-                {cat.name}
-              </button>
-              </ScratchAnimation>
+                  className={`px-4 py-2 text-xs font-bold uppercase tracking-tighter border transition-all ${
+                    activeCategory === cat.slug
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-transparent text-foreground border-border hover:border-primary"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              </ScratchBrutal>
             ))}
           </div>
 
@@ -205,49 +204,15 @@ export default function Shop() {
       {/* Product Grid */}
       <main className="container mx-auto px-6 py-12">
         {filteredProducts.length > 0 ? (
-          <motion.div
-            layout
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border border border-border"
-          >
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border border border-border">
             <AnimatePresence mode="popLayout">
               {filteredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  layout
-                  initial={{ 
-                    opacity: 0, 
-                    x: index % 2 === 0 ? -120 : 120, // Alternance gauche/droite
-                    rotate: index % 2 === 0 ? -4 : 4, // Alternance rotation
-                    scale: 0.9
-                  }}
-                  animate={{ 
-                    opacity: 1, 
-                    x: 0, 
-                    rotate: index % 2 === 0 ? -0.5 : 0.5, // Légère inclinaison finale
-                    scale: 1
-                  }}
-                  exit={{ 
-                    opacity: 0, 
-                    scale: 0.8,
-                    transition: { duration: 0.2 }
-                  }}
-                  transition={{ 
-                    type: "spring",
-                    damping: 25,
-                    stiffness: 120,
-                    delay: (index % 8) * 0.05 // Délai par groupe de 8
-                  }}
-                  whileHover={{
-                    rotate: 0, // Se redresse au hover
-                    scale: 1.02
-                  }}
-                  className="bg-background"
-                >
-                  <ProductCard product={product} />
-                </motion.div>
+                <div key={product.id} className="bg-background">
+                  <ProductCard product={product} index={index} />
+                </div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
         ) : (
           <div className="py-40 flex flex-col items-center justify-center text-center">
             <X className="w-12 h-12 text-muted-foreground mb-6" />

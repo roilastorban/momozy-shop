@@ -3,6 +3,8 @@ import { IMAGES } from "@/assets/images";
 import { ROUTE_PATHS } from "@/lib/index.ts";
 import { Shield, Users, Zap, MapPin, Phone, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
+import { GrayscaleImage } from "@/components/GrayscaleImage";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -25,22 +27,23 @@ export default function About() {
       {/* Hero Section - Brutalist Typography */}
       <section className="container mx-auto px-4 mb-24 relative">
         <div className="absolute -top-12 -left-12 w-64 h-64 border-l border-t border-border/30 z-0" />
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10"
-        >
-          <span className="font-mono text-xs tracking-widest uppercase text-muted-foreground mb-4 block">
-            Établi en 2024 • Bénin
-          </span>
-          <h1 className="text-6xl md:text-9xl font-extrabold font-heading leading-none tracking-tighter mb-8">
-            MOMOZY <br /> SHOP
-          </h1>
-          <p className="text-xl md:text-2xl font-light max-w-2xl leading-relaxed text-muted-foreground">
-            L'épicentre du Streetwear Premium au Bénin. Nous ne vendons pas des vêtements, nous définissons des standards.
-          </p>
-        </motion.div>
+        <div className="relative z-10">
+          <ScratchBrutal intensity="light" index={0}>
+            <span className="font-mono text-xs tracking-widest uppercase text-muted-foreground mb-4 block">
+              Établi en 2024 • Bénin
+            </span>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="brutal" index={1}>
+            <h1 className="text-6xl md:text-9xl font-extrabold font-heading leading-none tracking-tighter mb-8">
+              MOMOZY <br /> SHOP
+            </h1>
+          </ScratchBrutal>
+          <ScratchBrutal intensity="medium" index={2}>
+            <p className="text-xl md:text-2xl font-light max-w-2xl leading-relaxed text-muted-foreground">
+              L'épicentre du Streetwear Premium au Bénin. Nous ne vendons pas des vêtements, nous définissons des standards.
+            </p>
+          </ScratchBrutal>
+        </div>
         <div className="absolute bottom-0 right-0 w-1/2 aspect-square z-0 opacity-10">
           <img src={IMAGES.GEOMETRIC_BRUTALIST_1} alt="Geometric Design" className="w-full h-full object-cover grayscale" />
         </div>
@@ -48,12 +51,11 @@ export default function About() {
 
       {/* Story Section - Image Left Text Right Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 border-t border-border">
-        <div className="aspect-[4/5] md:aspect-auto border-r border-border grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden">
-          <motion.img
-            whileHover={{ scale: 1.05 }}
+        <div className="aspect-[4/5] md:aspect-auto border-r border-border overflow-hidden">
+          <GrayscaleImage
             src={IMAGES.URBAN_STYLE_1}
             alt="Momozy Vision"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hover:scale-105"
           />
         </div>
         <div className="flex flex-col justify-center p-8 md:p-20 bg-card">
@@ -98,17 +100,19 @@ export default function About() {
             { icon: Zap, title: "ÉNERGIE", desc: "Inspiré par le dynamisme brut de Cotonou et les codes de New York." },
             { icon: Users, title: "LE GANG", desc: "Une communauté d'élite validée par les plus grands artistes du pays." }
           ].map((val, idx) => (
-            <div key={idx} className="p-12 border-b md:border-b-0 md:border-r last:border-r-0 border-border hover:bg-white/5 transition-colors group">
-              <val.icon className="w-12 h-12 mb-8 text-primary group-hover:scale-110 transition-transform" />
-              <h3 className="text-2xl font-bold mb-4 font-heading">{val.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{val.desc}</p>
-            </div>
+            <ScratchBrutal key={idx} intensity="medium" index={idx}>
+              <div className="h-full p-12 border-b md:border-b-0 md:border-r last:border-r-0 border-border hover:bg-white/5 transition-colors group">
+                <val.icon className="w-12 h-12 mb-8 text-primary group-hover:scale-110 transition-transform" />
+                <h3 className="text-2xl font-bold mb-4 font-heading">{val.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{val.desc}</p>
+              </div>
+            </ScratchBrutal>
           ))}
         </div>
       </section>
 
       {/* Showroom Location - Brutalist Map/Info */}
-      <section className="bg-white text-black py-24">
+      <section className="bg-card text-foreground py-24 border-y border-border">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-6xl md:text-8xl font-black font-heading tracking-tighter mb-8 uppercase">
@@ -116,24 +120,24 @@ export default function About() {
             </h2>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 mt-1" />
+                <MapPin className="w-6 h-6 mt-1 text-primary" />
                 <div>
                   <p className="font-bold uppercase text-xl">Boutique Physique</p>
-                  <p className="text-lg">Carrefour Togoudo, avant la station AK Petrolenium. Abomey-Calavi, Bénin.</p>
+                  <p className="text-lg text-muted-foreground">Carrefour Togoudo, avant la station AK Petrolenium. Abomey-Calavi, Bénin.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 mt-1" />
+                <Phone className="w-6 h-6 mt-1 text-primary" />
                 <div>
                   <p className="font-bold uppercase text-xl">Support WhatsApp</p>
-                  <p className="text-lg">+229 96 09 24 39</p>
+                  <p className="text-lg text-muted-foreground">+229 96 09 24 39</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <Instagram className="w-6 h-6 mt-1" />
+                <Instagram className="w-6 h-6 mt-1 text-primary" />
                 <div>
                   <p className="font-bold uppercase text-xl">Instagram</p>
-                  <p className="text-lg">@momozyshop_official</p>
+                  <p className="text-lg text-muted-foreground">@momozyshop_official</p>
                 </div>
               </div>
             </div>
@@ -142,18 +146,18 @@ export default function About() {
                 href="https://maps.google.com" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-block border-2 border-black px-12 py-5 font-black uppercase hover:bg-black hover:text-white transition-all"
+                className="inline-block border-2 border-primary px-12 py-5 font-black uppercase hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 Nous trouver sur Maps
               </a>
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 border-2 border-black z-0" />
+            <div className="absolute -inset-4 border-2 border-border z-0" />
             <img 
               src={IMAGES.URBAN_STYLE_5} 
               alt="Momozy Store Interior" 
-              className="relative z-10 w-full h-[600px] object-cover"
+              className="relative z-10 w-full h-[600px] object-cover grayscale"
             />
           </div>
         </div>
@@ -169,19 +173,15 @@ export default function About() {
             { name: "X-Time", role: "Elite Ambassador", img: IMAGES.FASHION_MODEL_3 },
             { name: "Amir", role: "Style Consultant", img: IMAGES.FASHION_MODEL_4 }
           ].map((member, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="group"
-            >
-              <div className="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 mb-4">
-                <img src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            <ScratchBrutal key={i} intensity="medium" index={i}>
+              <div className="group">
+                <div className="aspect-[3/4] overflow-hidden mb-4">
+                  <GrayscaleImage src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-110" />
+                </div>
+                <h4 className="font-bold text-xl uppercase">{member.name}</h4>
+                <p className="text-muted-foreground font-mono text-sm">{member.role}</p>
               </div>
-              <h4 className="font-bold text-xl uppercase">{member.name}</h4>
-              <p className="text-muted-foreground font-mono text-sm">{member.role}</p>
-            </motion.div>
+            </ScratchBrutal>
           ))}
         </div>
       </section>

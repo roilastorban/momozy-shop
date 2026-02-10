@@ -13,6 +13,8 @@ import Contact from "@/pages/Contact";
 import Guide from "@/pages/Guide";
 import Delivery from "@/pages/Delivery";
 import FAQ from "@/pages/FAQ";
+import Checkout from "@/pages/Checkout";
+import OrderTracking from "@/pages/Tracking";
 import { ROUTE_PATHS } from "@/lib/index";
 
 const queryClient = new QueryClient({
@@ -75,6 +77,12 @@ export default function App() {
               
               {/* FAQ - Questions Fréquentes et Support */}
               <Route path={ROUTE_PATHS.FAQ} element={<FAQ />} />
+
+              {/* Checkout - Finalisation de commande */}
+              <Route path={ROUTE_PATHS.CHECKOUT} element={<Checkout />} />
+
+              {/* Suivi - Suivi de commande en temps réel */}
+              <Route path={ROUTE_PATHS.TRACKING} element={<OrderTracking />} />
 
               {/* Catch-all - Redirection vers l'accueil pour le brutalisme sans erreur */}
               <Route path="*" element={<Home />} />

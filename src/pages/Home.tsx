@@ -8,6 +8,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { BrandGrid } from "@/components/BrandGrid";
 import { IMAGES } from "@/assets/images";
 import { PRODUCTS, ROUTE_PATHS, CATEGORIES } from "@/lib/index";
+import { ScratchBrutal } from "@/components/ScratchBrutal";
+import { GrayscaleImage } from "@/components/GrayscaleImage";
 
 const Home: React.FC = () => {
   // Filter featured products (Elite or New)
@@ -24,83 +26,65 @@ const Home: React.FC = () => {
       {/* Section 3: Categories Vedettes (Brutalist Grid) */}
       <section className="py-24 px-4 md:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-border">
-          <motion.div
-            initial={{ opacity: 0, x: -300, rotate: -12 }}
-            whileInView={{ opacity: 1, x: 0, rotate: -3 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 120, delay: 0.1 }}
-            whileHover={{ rotate: 0, scale: 1.02 }}
-          >
+          <ScratchBrutal intensity="brutal" index={0}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
             >
-            <img 
-              src={IMAGES.STREETWEAR_CLOTHING_4} 
-              alt="Les Ensembles" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0"
-            />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-            <div className="absolute bottom-8 left-8">
-              <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Les Ensembles</h3>
-              <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                VOIR LA COLLECTION <ArrowRight size={16} />
+              <GrayscaleImage
+                src={IMAGES.STREETWEAR_CLOTHING_4}
+                alt="Les Ensembles"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute bottom-8 left-8">
+                <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Les Ensembles</h3>
+                <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  VOIR LA COLLECTION <ArrowRight size={16} />
+                </div>
               </div>
-            </div>
             </Link>
-          </motion.div>
+          </ScratchBrutal>
 
-          <motion.div
-            initial={{ opacity: 0, y: -250, rotate: 8 }}
-            whileInView={{ opacity: 1, y: 0, rotate: 2 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 120, delay: 0.3 }}
-            whileHover={{ rotate: 0, scale: 1.02 }}
-          >
+          <ScratchBrutal intensity="brutal" index={1}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
             >
-            <img 
-              src={IMAGES.STREETWEAR_CLOTHING_2} 
-              alt="Les Hauts" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0"
-            />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-            <div className="absolute bottom-8 left-8">
-              <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Les Hauts</h3>
-              <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                VOIR LA COLLECTION <ArrowRight size={16} />
+              <GrayscaleImage
+                src={IMAGES.STREETWEAR_CLOTHING_2}
+                alt="Les Hauts"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute bottom-8 left-8">
+                <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Les Hauts</h3>
+                <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  VOIR LA COLLECTION <ArrowRight size={16} />
+                </div>
               </div>
-            </div>
             </Link>
-          </motion.div>
+          </ScratchBrutal>
 
-          <motion.div
-            initial={{ opacity: 0, x: 300, rotate: -10 }}
-            whileInView={{ opacity: 1, x: 0, rotate: -4 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 120, delay: 0.5 }}
-            whileHover={{ rotate: 0, scale: 1.02 }}
-          >
+          <ScratchBrutal intensity="brutal" index={2}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
             >
-            <img 
-              src={IMAGES.URBAN_STYLE_4} 
-              alt="Sneakers" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0"
-            />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-            <div className="absolute bottom-8 left-8">
-              <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Sneakers</h3>
-              <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                VOIR LA COLLECTION <ArrowRight size={16} />
+              <GrayscaleImage
+                src={IMAGES.URBAN_STYLE_4}
+                alt="Sneakers"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute bottom-8 left-8">
+                <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Sneakers</h3>
+                <div className="mt-4 flex items-center gap-2 text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  VOIR LA COLLECTION <ArrowRight size={16} />
+                </div>
               </div>
-            </div>
             </Link>
-          </motion.div>
+          </ScratchBrutal>
         </div>
       </section>
 
@@ -123,30 +107,11 @@ const Home: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {featuredProducts.map((product, index) => (
-            <motion.div
+            <ProductCard
               key={product.id}
-              initial={{ 
-                opacity: 0, 
-                x: index % 2 === 0 ? -150 : 150, // Alternance gauche/droite
-                rotate: index % 2 === 0 ? -6 : 6, // Alternance rotation
-                scale: 0.9
-              }}
-              whileInView={{ 
-                opacity: 1, 
-                x: 0, 
-                rotate: index % 2 === 0 ? -1 : 1, // Légère inclinaison finale
-                scale: 1
-              }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                type: "spring",
-                damping: 22,
-                stiffness: 110,
-                delay: index * 0.1 // Délai progressif
-              }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
+              product={product}
+              index={index}
+            />
           ))}
         </div>
       </section>
@@ -164,64 +129,60 @@ const Home: React.FC = () => {
       {/* Section 6: Lifestyle Bento Grid (The Vibe) */}
       <section className="py-24 px-4 md:px-8 border-t border-border">
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[800px]">
-          <motion.div 
-            initial={{ opacity: 0, x: -200, rotate: -5, scale: 0.9 }}
-            whileInView={{ opacity: 1, x: 0, rotate: -1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 100, delay: 0.2 }}
-            whileHover={{ scale: 0.98, rotate: 0 }}
-            className="md:col-span-2 md:row-span-2 relative overflow-hidden group border border-border"
+          <ScratchBrutal
+            intensity="brutal"
+            index={0}
+            className="md:col-span-2 md:row-span-2"
           >
-            <img src={IMAGES.URBAN_STYLE_1} className="w-full h-full object-cover grayscale" alt="Street life" />
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
-              <p className="text-white text-center font-mono text-lg">
-                "Plus qu'une boutique, un standard. Retrouvez-nous au Carrefour Togoudo pour une expérience unique."
-              </p>
+            <div className="relative h-full overflow-hidden group border border-border">
+              <GrayscaleImage src={IMAGES.URBAN_STYLE_1} className="w-full h-full object-cover" alt="Street life" />
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
+                <p className="text-white text-center font-mono text-lg">
+                  "Plus qu'une boutique, un standard. Retrouvez-nous au Carrefour Togoudo pour une expérience unique."
+                </p>
+              </div>
             </div>
-          </motion.div>
+          </ScratchBrutal>
           
-          <motion.div 
-            initial={{ opacity: 0, y: -150, rotate: 8, scale: 0.8 }}
-            whileInView={{ opacity: 1, y: 0, rotate: 3, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 100, delay: 0.4 }}
-            whileHover={{ rotate: 0, scale: 1.05 }}
-            className="md:col-span-1 md:row-span-1 relative overflow-hidden border border-border"
+          <ScratchBrutal
+            intensity="medium"
+            index={1}
+            className="md:col-span-1 md:row-span-1"
           >
-            <img src={IMAGES.URBAN_STYLE_2} className="w-full h-full object-cover" alt="Urban detail" />
-          </motion.div>
+            <div className="relative h-full overflow-hidden border border-border">
+              <GrayscaleImage src={IMAGES.URBAN_STYLE_2} className="w-full h-full object-cover" alt="Urban detail" />
+            </div>
+          </ScratchBrutal>
           
-          <motion.div 
-            initial={{ opacity: 0, x: 200, rotate: -12, scale: 0.7 }}
-            whileInView={{ opacity: 1, x: 0, rotate: -2, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", damping: 20, stiffness: 120, delay: 0.6 }}
-            whileHover={{ rotate: 0, scale: 1.05 }}
-            className="md:col-span-1 md:row-span-1 bg-primary flex flex-col items-center justify-center p-8 text-primary-foreground border border-border"
+          <ScratchBrutal
+            intensity="light"
+            index={2}
+            className="md:col-span-1 md:row-span-1"
           >
-            <MapPin size={48} className="mb-4" />
-            <h4 className="text-2xl font-black uppercase text-center">Boutique Physique</h4>
-            <p className="text-center font-mono text-sm mt-2">Carrefour Togoudo, Calavi</p>
-            <a 
-              href="https://maps.google.com" 
-              target="_blank" 
-              rel="noreferrer"
-              className="mt-6 border-b border-current pb-1 font-bold text-xs tracking-widest hover:opacity-70 transition-opacity"
-            >
-              NOUS TROUVER SUR MAPS
-            </a>
-          </motion.div>
+            <div className="h-full bg-primary flex flex-col items-center justify-center p-8 text-primary-foreground border border-border">
+              <MapPin size={48} className="mb-4" />
+              <h4 className="text-2xl font-black uppercase text-center">Boutique Physique</h4>
+              <p className="text-center font-mono text-sm mt-2">Carrefour Togoudo, Calavi</p>
+              <a
+                href="https://maps.google.com"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 border-b border-current pb-1 font-bold text-xs tracking-widest hover:opacity-70 transition-opacity"
+              >
+                NOUS TROUVER SUR MAPS
+              </a>
+            </div>
+          </ScratchBrutal>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 200, rotate: 6, scale: 0.8 }}
-            whileInView={{ opacity: 1, y: 0, rotate: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", damping: 25, stiffness: 100, delay: 0.8 }}
-            whileHover={{ rotate: 0, scale: 1.02 }}
-            className="md:col-span-2 md:row-span-1 relative overflow-hidden border border-border"
+          <ScratchBrutal
+            intensity="medium"
+            index={3}
+            className="md:col-span-2 md:row-span-1"
           >
-            <img src={IMAGES.URBAN_STYLE_5} className="w-full h-full object-cover" alt="Style focus" />
-          </motion.div>
+            <div className="relative h-full overflow-hidden border border-border">
+              <GrayscaleImage src={IMAGES.URBAN_STYLE_5} className="w-full h-full object-cover" alt="Style focus" />
+            </div>
+          </ScratchBrutal>
         </div>
       </section>
 

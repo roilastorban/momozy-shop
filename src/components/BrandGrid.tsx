@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { BRANDS, ROUTE_PATHS } from '@/lib/index';
 import { IMAGES } from '@/assets/images';
 import { ArrowRight } from 'lucide-react';
+import { ScratchBrutal } from '@/components/ScratchBrutal';
+import { GrayscaleImage } from '@/components/GrayscaleImage';
 
 /**
  * BrandGrid Component
@@ -56,12 +58,10 @@ export function BrandGrid() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-foreground/20">
           {BRANDS.map((brand, index) => (
-            <motion.div
+            <ScratchBrutal
               key={brand.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              index={index}
+              intensity="medium"
             >
               <Link
                 to={`${ROUTE_PATHS.BRANDS}?brand=${brand.slug}`}
@@ -69,10 +69,10 @@ export function BrandGrid() {
               >
                 {/* Background Texture Overlay */}
                 <div className="absolute inset-0 z-0">
-                  <img 
+                  <GrayscaleImage
                     src={textures[index % textures.length]} 
                     alt="Texture"
-                    className="w-full h-full object-cover opacity-20 grayscale transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
+                    className="w-full h-full object-cover opacity-20 transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
                   />
                   <div className="absolute inset-0 bg-background/80 group-hover:bg-background/40 transition-colors duration-500" />
                 </div>
@@ -104,15 +104,13 @@ export function BrandGrid() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </ScratchBrutal>
           ))}
           
           {/* CTA Tile for Boutique */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
+          <ScratchBrutal
+            intensity="brutal"
+            index={BRANDS.length}
             className="group relative h-[400px] border-r border-b border-foreground/20 bg-foreground flex items-center justify-center"
           >
             <Link
@@ -129,7 +127,7 @@ export function BrandGrid() {
                 <ArrowRight className="w-8 h-8" />
               </div>
             </Link>
-          </motion.div>
+          </ScratchBrutal>
         </div>
       </div>
     </section>

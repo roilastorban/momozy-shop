@@ -7,28 +7,24 @@
  * Features:
  * - 3 intensity levels: Light (100px, 3°), Medium (200px, 6°), Brutal (300px, 12°)
  * - Random arrival direction (left or right)
- * - Progressive delay for cascade/wave effect
- * - Spring physics for natural movement
+ * - Deterministic delay for cascade/wave effect based on index
+ * - Spring physics for aggressive movement (Damping 20-25, Stiffness 80-120)
  * - Hover effect: elements straighten to 0° rotation
- * - Viewport-based triggering with Intersection Observer
- * 
- * @example
- * <ScratchBrutal intensity="medium" delay={0}>
- *   <div>Content here</div>
- * </ScratchBrutal>
+ * - Viewport-based triggering with Intersection Observer (margin -100px)
  */
 
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-type Intensity = 'light' | 'medium' | 'brutal';
+export type Intensity = 'light' | 'medium' | 'brutal';
 
 interface ScratchBrutalProps {
   children: React.ReactNode;
   intensity?: Intensity;
-  delay?: number;
+  index?: number; // Used for deterministic cascade effect
+  delay?: number; // Base delay if index is not provided
   className?: string;
-  onceOnly?: boolean;
+  once?: boolean;
 }
 
 // Configuration for each intensity level
@@ -38,19 +34,20 @@ const INTENSITY_CONFIG: Record<Intensity, { distance: number; rotation: number }
   brutal: { distance: 300, rotation: 12 },
 };
 
-// Spring physics configuration for natural, aggressive movement
+// Spring physics configuration (damping 20–25, stiffness 80–120)
 const SPRING_CONFIG = {
-  damping: 22, // 20-25 range for controlled but energetic movement
-  stiffness: 100, // 80-120 range for responsive spring
+  damping: 22,
+  stiffness: 100,
   mass: 1,
 };
 
 export function ScratchBrutal({
   children,
   intensity = 'medium',
+  index = 0,
   delay = 0,
   className = '',
-  onceOnly = true,
+  once = true,
 }: ScratchBrutalProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -59,7 +56,7 @@ export function ScratchBrutal({
   // Random direction: -1 for left, 1 for right
   const directionRef = useRef(Math.random() > 0.5 ? 1 : -1);
   
-  // Random rotation between -12° and +12°
+  // Random starting rotation between -12° and +12°
   const randomRotationRef = useRef(Math.random() * 24 - 12);
   
   // Final slight tilt (between -2° and +2°)
@@ -67,18 +64,19 @@ export function ScratchBrutal({
 
   const config = INTENSITY_CONFIG[intensity];
 
+  // Calculate total delay: base delay + (index * stagger)
+  const totalDelay = (delay || 0) + (index * 0.1);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Only trigger animation once if onceOnly is true
-        if (entry.isIntersecting && (!hasAnimated || !onceOnly)) {
+        if (entry.isIntersecting && (!hasAnimated || !once)) {
           setIsVisible(true);
-          if (onceOnly) setHasAnimated(true);
+          if (once) setHasAnimated(true);
         }
       },
       {
-        // Trigger animation 100px before element becomes visible
-        margin: '-100px',
+        margin: '-100px', // Trigger 100px before visibility
         threshold: 0,
       }
     );
@@ -92,38 +90,32 @@ export function ScratchBrutal({
         observer.unobserve(ref.current);
       }
     };
-  }, [hasAnimated, onceOnly]);
+  }, [hasAnimated, once]);
 
-  // Animation variants for Framer Motion
+  // Animation variants
   const variants = {
     hidden: {
-      // Start from the side (left or right based on random direction)
       x: directionRef.current * config.distance,
-      // Start with random rotation
       rotate: randomRotationRef.current,
       opacity: 0,
     },
     visible: {
-      // Animate to center position
       x: 0,
-      // Stabilize with slight final tilt
       rotate: finalTiltRef.current,
       opacity: 1,
       transition: {
-        delay: delay * 0.1, // Progressive delay for cascade effect
-        duration: 0.8,
+        delay: totalDelay,
         type: 'spring',
         ...SPRING_CONFIG,
       },
     },
     hover: {
-      // On hover, straighten to 0° rotation
       rotate: 0,
       transition: {
-        duration: 0.4,
+        duration: 0.3,
         type: 'spring',
         damping: 20,
-        stiffness: 100,
+        stiffness: 150,
       },
     },
   };

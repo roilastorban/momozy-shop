@@ -17,6 +17,7 @@ import { SiWhatsapp, SiInstagram, SiFacebook } from "react-icons/si";
 import { ROUTE_PATHS, CATEGORIES } from "@/lib/index";
 import { useCart } from "@/hooks/useCart";
 import { cn } from "@/lib/utils";
+import { CartDrawer } from "./CartDrawer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { getTotalItems } = useCart();
   const location = useLocation();
@@ -62,15 +64,8 @@ export default function Layout({ children }: LayoutProps) {
         </motion.div>
       </div>
 
-      {/* Sticky Header */}
-      <header 
-        className={cn(
-          "relative w-full z-50 transition-all duration-300 border-b border-border/10",
-          isScrolled 
-            ? "bg-background/80 backdrop-blur-xl py-3 border-border/40" 
-            : "bg-transparent py-6"
-        )}
-      >
+      {/* Header - Non Sticky, Transparent */}
+      <header className="absolute top-12 left-0 w-full z-50 bg-transparent py-8">
         <div className="container mx-auto px-4 flex items-center justify-between">
           {/* Left: Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -112,7 +107,7 @@ export default function Layout({ children }: LayoutProps) {
             </button>
             <button 
               className="relative hover:text-primary transition-colors p-2"
-              onClick={() => { /* Cart Logic */ }}
+              onClick={() => setIsCartOpen(true)}
             >
               <ShoppingBag size={20} strokeWidth={2.5} />
               {totalItems > 0 && (
@@ -122,10 +117,21 @@ export default function Layout({ children }: LayoutProps) {
               )}
             </button>
             <button 
-              className="lg:hidden p-2"
+              className="lg:hidden p-2 relative w-8 h-8 flex flex-col justify-between items-end group"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <motion.span
+                animate={isMenuOpen ? { rotate: 45, y: 14, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
+                className="w-full h-1 bg-foreground transition-all"
+              />
+              <motion.span
+                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-2/3 h-1 bg-foreground transition-all"
+              />
+              <motion.span
+                animate={isMenuOpen ? { rotate: -45, y: -14, width: "100%" } : { rotate: 0, y: 0, width: "33%" }}
+                className="w-1/3 h-1 bg-foreground transition-all"
+              />
             </button>
           </div>
         </div>
@@ -135,11 +141,21 @@ export default function Layout({ children }: LayoutProps) {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-background flex flex-col pt-32 px-6 lg:hidden"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[60] bg-background flex flex-col pt-32 px-6 lg:hidden"
           >
+            <button
+              className="absolute top-10 right-6 p-4 border border-foreground group hover:bg-foreground transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center gap-3 font-black text-xs tracking-tighter group-hover:text-background">
+                FERMER <ArrowUpRight className="rotate-45" size={16} />
+              </div>
+            </button>
+
             <nav className="flex flex-col gap-6">
               {navLinks.map((link, idx) => (
                 <motion.div
@@ -179,6 +195,12 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-grow">
         {children}
       </main>
+
+      {/* Cart Drawer */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+      />
 
       {/* Footer */}
       <footer className="bg-card border-t border-border mt-20 pt-20 pb-10">
@@ -235,7 +257,7 @@ export default function Layout({ children }: LayoutProps) {
                   <Link to={ROUTE_PATHS.FAQ} className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link>
                 </li>
                 <li>
-                  <Link to={ROUTE_PATHS.FAQ} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Suivi de Commande</Link>
+                  <Link to={ROUTE_PATHS.TRACKING} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Suivi de Commande</Link>
                 </li>
               </ul>
             </div>
@@ -284,7 +306,7 @@ export default function Layout({ children }: LayoutProps) {
         href="https://wa.me/22996092439"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-8 right-8 z-[60] bg-[#25D366] text-white p-4 group transition-all duration-300 hover:scale-110 active:scale-95 shadow-2xl"
+        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[60] bg-[#25D366] text-white p-4 group transition-all duration-300 hover:scale-110 active:scale-95 shadow-2xl"
       >
         <SiWhatsapp size={24} />
         <span className="absolute right-full mr-4 bg-background border border-border text-foreground px-4 py-2 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0">
