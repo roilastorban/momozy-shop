@@ -27,6 +27,13 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
+const AUDIO_CONFIG = {
+  START_SCROLL: 50,
+  END_SCROLL: 500,
+  MAX_VOLUME: 0.4,
+  FILE_PATH: "/audio/background.mp3"
+};
+
 export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -39,28 +46,23 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > AUDIO_CONFIG.START_SCROLL);
 
       // Dynamic volume based on scroll
       if (audioRef.current && !isMuted) {
-        const scrollY = window.scrollY;
-        const viewportHeight = window.innerHeight;
-
-        // Music starts after hero section (approx 0.8 viewport height)
-        // We start fading in at 0.5 * viewportHeight and reach max at 1.2 * viewportHeight
-        const startFade = viewportHeight * 0.5;
-        const endFade = viewportHeight * 1.2;
-
-        if (scrollY < startFade) {
+        if (scrollY < AUDIO_CONFIG.START_SCROLL) {
           audioRef.current.volume = 0;
         } else {
-          // Linear increase from 0 to 0.4 (40% volume max)
-          const ratio = Math.min(1, (scrollY - startFade) / (endFade - startFade));
-          audioRef.current.volume = ratio * 0.4;
+          // Linear increase from 0 to MAX_VOLUME
+          const ratio = Math.min(1, (scrollY - AUDIO_CONFIG.START_SCROLL) / (AUDIO_CONFIG.END_SCROLL - AUDIO_CONFIG.START_SCROLL));
+          audioRef.current.volume = ratio * AUDIO_CONFIG.MAX_VOLUME;
         }
       }
     };
     window.addEventListener("scroll", handleScroll);
+    // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMuted]);
 
@@ -94,11 +96,8 @@ export default function Layout({ children }: LayoutProps) {
         audioRef.current.play().then(() => {
           // Trigger scroll check to set correct volume immediately after play
           const scrollY = window.scrollY;
-          const viewportHeight = window.innerHeight;
-          const startFade = viewportHeight * 0.5;
-          const endFade = viewportHeight * 1.2;
-          const ratio = Math.max(0, Math.min(1, (scrollY - startFade) / (endFade - startFade)));
-          audioRef.current!.volume = ratio * 0.4;
+          const ratio = Math.max(0, Math.min(1, (scrollY - AUDIO_CONFIG.START_SCROLL) / (AUDIO_CONFIG.END_SCROLL - AUDIO_CONFIG.START_SCROLL)));
+          audioRef.current!.volume = ratio * AUDIO_CONFIG.MAX_VOLUME;
         }).catch(err => console.log("Autoplay blocked", err));
         setIsMuted(false);
       } else {
@@ -388,7 +387,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Background Music - Street/Funky Hip Hop Beat */}
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2021/11/23/audio_039649774a.mp3"
+        src={AUDIO_CONFIG.FILE_PATH}
         loop
         preload="auto"
       />
