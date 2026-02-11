@@ -97,7 +97,7 @@ export default function Shop() {
             {CATEGORIES.map((cat, index) => (
               <ScratchBrutal
                 key={cat.slug}
-                index={index}
+                cascadeIndex={index}
                 intensity="light"
               >
                 <button
@@ -208,7 +208,7 @@ export default function Shop() {
             <AnimatePresence mode="popLayout">
               {filteredProducts.map((product, index) => (
                 <div key={product.id} className="bg-background">
-                  <ProductCard product={product} index={index} />
+                  <ProductCard product={product} cascadeIndex={index} />
                 </div>
               ))}
             </AnimatePresence>

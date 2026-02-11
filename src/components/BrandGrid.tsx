@@ -60,7 +60,7 @@ export function BrandGrid() {
           {BRANDS.map((brand, index) => (
             <ScratchBrutal
               key={brand.slug}
-              index={index}
+              cascadeIndex={index}
               intensity="medium"
             >
               <Link
@@ -110,7 +110,7 @@ export function BrandGrid() {
           {/* CTA Tile for Boutique */}
           <ScratchBrutal
             intensity="brutal"
-            index={BRANDS.length}
+            cascadeIndex={BRANDS.length}
             className="group relative h-[400px] border-r border-b border-foreground/20 bg-foreground flex items-center justify-center"
           >
             <Link

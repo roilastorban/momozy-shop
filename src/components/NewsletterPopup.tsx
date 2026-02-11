@@ -15,19 +15,16 @@ export function NewsletterPopup() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    // Show popup after 5 seconds if not already closed/dismissed
-    const hasDismissed = localStorage.getItem("momozy_newsletter_dismissed");
-    if (!hasDismissed) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
+    // Show popup after 5 seconds on every page load
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    localStorage.setItem("momozy_newsletter_dismissed", "true");
+    // Removed localStorage dismissal to allow it to reappear on next load/refresh
   };
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       {/* Section 3: Categories Vedettes (Brutalist Grid) */}
       <section className="py-24 px-4 md:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-border">
-          <ScratchBrutal intensity="brutal" index={0}>
+          <ScratchBrutal intensity="brutal" cascadeIndex={0}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
             </Link>
           </ScratchBrutal>
 
-          <ScratchBrutal intensity="brutal" index={1}>
+          <ScratchBrutal intensity="brutal" cascadeIndex={1}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
             </Link>
           </ScratchBrutal>
 
-          <ScratchBrutal intensity="brutal" index={2}>
+          <ScratchBrutal intensity="brutal" cascadeIndex={2}>
             <Link 
               to={ROUTE_PATHS.SHOP} 
               className="block group relative aspect-[4/5] overflow-hidden border-r border-b border-border"
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
             <ProductCard
               key={product.id}
               product={product}
-              index={index}
+              cascadeIndex={index}
             />
           ))}
         </div>
@@ -131,7 +131,7 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[800px]">
           <ScratchBrutal
             intensity="brutal"
-            index={0}
+            cascadeIndex={0}
             className="md:col-span-2 md:row-span-2"
           >
             <div className="relative h-full overflow-hidden group border border-border">
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
           
           <ScratchBrutal
             intensity="medium"
-            index={1}
+            cascadeIndex={1}
             className="md:col-span-1 md:row-span-1"
           >
             <div className="relative h-full overflow-hidden border border-border">
@@ -156,7 +156,7 @@ const Home: React.FC = () => {
           
           <ScratchBrutal
             intensity="light"
-            index={2}
+            cascadeIndex={2}
             className="md:col-span-1 md:row-span-1"
           >
             <div className="h-full bg-primary flex flex-col items-center justify-center p-8 text-primary-foreground border border-border">
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
 
           <ScratchBrutal
             intensity="medium"
-            index={3}
+            cascadeIndex={3}
             className="md:col-span-2 md:row-span-1"
           >
             <div className="relative h-full overflow-hidden border border-border">

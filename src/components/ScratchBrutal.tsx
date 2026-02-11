@@ -91,7 +91,7 @@ export function ScratchBrutal({
       whileInView="visible"
       viewport={{
         once: once,
-        margin: "-100px", // Trigger slightly inside the viewport for better UX
+        margin: "0px", // Trigger immediately when entering viewport
         amount: 0
       }}
       whileHover="hover"

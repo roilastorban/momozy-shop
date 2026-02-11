@@ -21,6 +21,7 @@ import { useCart } from "@/hooks/useCart";
 import { cn } from "@/lib/utils";
 import { CartDrawer } from "./CartDrawer";
 import { NewsletterPopup } from "./NewsletterPopup";
+import { CookieConsent } from "./CookieConsent";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { getTotalItems } = useCart();
   const location = useLocation();
@@ -43,18 +44,19 @@ export default function Layout({ children }: LayoutProps) {
       // Dynamic volume based on scroll
       if (audioRef.current && !isMuted) {
         const scrollY = window.scrollY;
-        const heroHeight = window.innerHeight * 0.8;
+        const viewportHeight = window.innerHeight;
 
-        // Start increasing after 100px, max at heroHeight * 1.5
-        const minScroll = 100;
-        const maxScroll = heroHeight * 1.5;
+        // Music starts after hero section (approx 0.8 viewport height)
+        // We start fading in at 0.5 * viewportHeight and reach max at 1.2 * viewportHeight
+        const startFade = viewportHeight * 0.5;
+        const endFade = viewportHeight * 1.2;
 
-        if (scrollY < minScroll) {
+        if (scrollY < startFade) {
           audioRef.current.volume = 0;
         } else {
-          // Linear increase from 0 to 0.15 (15% volume)
-          const ratio = Math.min(1, (scrollY - minScroll) / (maxScroll - minScroll));
-          audioRef.current.volume = ratio * 0.15;
+          // Linear increase from 0 to 0.4 (40% volume max)
+          const ratio = Math.min(1, (scrollY - startFade) / (endFade - startFade));
+          audioRef.current.volume = ratio * 0.4;
         }
       }
     };
@@ -70,7 +72,21 @@ export default function Layout({ children }: LayoutProps) {
     if (audioRef.current) {
       audioRef.current.volume = 0;
     }
-  }, []);
+
+    // Attempt to start audio on first interaction if not muted
+    const handleFirstInteraction = () => {
+      if (audioRef.current && !isMuted) {
+        audioRef.current.play().catch(err => console.log("Autoplay blocked", err));
+      }
+    };
+
+    window.addEventListener('click', handleFirstInteraction, { once: true });
+    window.addEventListener('touchstart', handleFirstInteraction, { once: true });
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+    };
+  }, [isMuted]);
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -78,11 +94,11 @@ export default function Layout({ children }: LayoutProps) {
         audioRef.current.play().then(() => {
           // Trigger scroll check to set correct volume immediately after play
           const scrollY = window.scrollY;
-          const heroHeight = window.innerHeight * 0.8;
-          const minScroll = 100;
-          const maxScroll = heroHeight * 1.5;
-          const ratio = Math.max(0, Math.min(1, (scrollY - minScroll) / (maxScroll - minScroll)));
-          audioRef.current!.volume = ratio * 0.15;
+          const viewportHeight = window.innerHeight;
+          const startFade = viewportHeight * 0.5;
+          const endFade = viewportHeight * 1.2;
+          const ratio = Math.max(0, Math.min(1, (scrollY - startFade) / (endFade - startFade)));
+          audioRef.current!.volume = ratio * 0.4;
         }).catch(err => console.log("Autoplay blocked", err));
         setIsMuted(false);
       } else {
@@ -103,19 +119,20 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
-      {/* Top Bar Announcement */}
-      <div className="w-full bg-transparent text-white py-2 overflow-hidden border-b border-white/10">
-        <motion.div 
-          animate={{ x: ["100%", "-100%"] }}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          className="whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] font-bold"
-        >
-          Livraison Express sur Cotonou & Calavi — Commandez via WhatsApp au +229 96 09 24 39 — L'élite du Streetwear au Bénin
-        </motion.div>
-      </div>
+      <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+        {/* Top Bar Announcement */}
+        <div className="w-full bg-black/40 backdrop-blur-md text-white py-2 overflow-hidden border-b border-white/10 pointer-events-auto">
+          <motion.div
+            animate={{ x: ["100%", "-100%"] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+            className="whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] font-bold"
+          >
+            Livraison Express sur Cotonou & Calavi — Commandez via WhatsApp au +229 96 09 24 39 — L'élite du Streetwear au Bénin
+          </motion.div>
+        </div>
 
-      {/* Header - Non-sticky, Transparent */}
-      <header className="relative w-full z-50 bg-transparent py-6 md:py-8 transition-all duration-300">
+        {/* Header - Fixed & Transparent */}
+        <header className="w-full bg-transparent py-6 md:py-8 transition-all duration-300 pointer-events-auto">
         <div className="container mx-auto px-4 flex items-center justify-between">
           {/* Left: Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -125,7 +142,7 @@ export default function Layout({ children }: LayoutProps) {
                 to={link.path}
                 className={({ isActive }) => cn(
                   "text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors relative group",
-                  isActive ? "text-primary" : "text-foreground/60"
+                  isActive ? "text-primary" : "text-white"
                 )}
               >
                 {link.name}
@@ -137,7 +154,7 @@ export default function Layout({ children }: LayoutProps) {
           {/* Center: Logo */}
           <Link 
             to={ROUTE_PATHS.HOME} 
-            className="flex flex-col items-center group"
+            className="flex flex-col items-center group text-white"
           >
             <span className="text-2xl md:text-3xl font-black tracking-tighter leading-none group-hover:scale-105 transition-transform">
               MOMOZY
@@ -148,10 +165,10 @@ export default function Layout({ children }: LayoutProps) {
           </Link>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-4 md:gap-6 text-white">
             <button
               onClick={toggleMute}
-              className="hover:text-primary transition-colors p-2 text-foreground/60"
+              className="hover:text-primary transition-colors p-2"
               title={isMuted ? "Activer le son" : "Couper le son"}
             >
               {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} className="animate-pulse" />}
@@ -179,20 +196,21 @@ export default function Layout({ children }: LayoutProps) {
             >
               <motion.span
                 animate={isMenuOpen ? { rotate: 45, y: 14, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
-                className="w-full h-1 bg-foreground transition-all"
+                className="w-full h-1 bg-white transition-all"
               />
               <motion.span
                 animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-2/3 h-1 bg-foreground transition-all"
+                className="w-2/3 h-1 bg-white transition-all"
               />
               <motion.span
                 animate={isMenuOpen ? { rotate: -45, y: -14, width: "100%" } : { rotate: 0, y: 0, width: "33%" }}
-                className="w-1/3 h-1 bg-foreground transition-all"
+                className="w-1/3 h-1 bg-white transition-all"
               />
             </button>
           </div>
         </div>
       </header>
+    </div>
 
       {/* Mobile Navigation Overlay */}
       <AnimatePresence>
@@ -255,6 +273,9 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Newsletter Popup */}
       <NewsletterPopup />
+
+      {/* Cookie Consent */}
+      <CookieConsent />
 
       {/* Cart Drawer */}
       <CartDrawer
@@ -364,10 +385,10 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </footer>
 
-      {/* Background Music */}
+      {/* Background Music - Street/Funky Hip Hop Beat */}
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2022/01/21/audio_3177674621.mp3"
+        src="https://cdn.pixabay.com/audio/2021/11/23/audio_039649774a.mp3"
         loop
         preload="auto"
       />
