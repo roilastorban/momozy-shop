@@ -1,0 +1,13 @@
+
+> vite_react_shadcn_ts@0.0.0 dev
+> VITE_ENABLE_ROUTE_MESSAGING=true vite
+
+
+  VITE v5.4.21  ready in 2150 ms
+
+  ➜  Local:   http://localhost:8080/
+  ➜  Network: http://192.168.0.2:8080/
+9:15:27 AM [vite] hmr update /src/components/Layout.tsx, /src/index.css
+9:41:16 AM [vite] page reload verification/verify.py
+9:41:16 AM [vite] page reload verification/visual_check.spec.ts
+11:10:17 AM [vite] hmr update /src/components/Layout.tsx, /src/index.css

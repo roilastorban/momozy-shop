@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -11,7 +11,9 @@ import {
   Phone, 
   Mail, 
   ChevronRight,
-  ArrowUpRight
+  ArrowUpRight,
+  Volume2,
+  VolumeX
 } from "lucide-react";
 import { SiWhatsapp, SiInstagram, SiFacebook } from "react-icons/si";
 import { ROUTE_PATHS, CATEGORIES } from "@/lib/index";
@@ -27,6 +29,8 @@ export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const { getTotalItems } = useCart();
   const location = useLocation();
   const totalItems = getTotalItems();
@@ -34,14 +38,58 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Dynamic volume based on scroll
+      if (audioRef.current && !isMuted) {
+        const scrollY = window.scrollY;
+        const heroHeight = window.innerHeight * 0.8;
+
+        // Start increasing after 100px, max at heroHeight * 1.5
+        const minScroll = 100;
+        const maxScroll = heroHeight * 1.5;
+
+        if (scrollY < minScroll) {
+          audioRef.current.volume = 0;
+        } else {
+          // Linear increase from 0 to 0.15 (15% volume)
+          const ratio = Math.min(1, (scrollY - minScroll) / (maxScroll - minScroll));
+          audioRef.current.volume = ratio * 0.15;
+        }
+      }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMuted]);
 
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0;
+    }
+  }, []);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      if (isMuted) {
+        audioRef.current.play().then(() => {
+          // Trigger scroll check to set correct volume immediately after play
+          const scrollY = window.scrollY;
+          const heroHeight = window.innerHeight * 0.8;
+          const minScroll = 100;
+          const maxScroll = heroHeight * 1.5;
+          const ratio = Math.max(0, Math.min(1, (scrollY - minScroll) / (maxScroll - minScroll)));
+          audioRef.current!.volume = ratio * 0.15;
+        }).catch(err => console.log("Autoplay blocked", err));
+        setIsMuted(false);
+      } else {
+        audioRef.current.pause();
+        setIsMuted(true);
+      }
+    }
+  };
 
   const navLinks = [
     { name: "DROPS", path: ROUTE_PATHS.HOME },
@@ -54,7 +102,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
       {/* Top Bar Announcement */}
-      <div className="w-full bg-primary text-primary-foreground py-2 overflow-hidden border-b border-border">
+      <div className="w-full bg-transparent text-white py-2 overflow-hidden border-b border-white/10">
         <motion.div 
           animate={{ x: ["100%", "-100%"] }}
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
@@ -64,8 +112,8 @@ export default function Layout({ children }: LayoutProps) {
         </motion.div>
       </div>
 
-      {/* Header - Non Sticky, Transparent */}
-      <header className="absolute top-12 left-0 w-full z-50 bg-transparent py-8">
+      {/* Header - Non-sticky, Transparent */}
+      <header className="relative w-full z-50 bg-transparent py-6 md:py-8 transition-all duration-300">
         <div className="container mx-auto px-4 flex items-center justify-between">
           {/* Left: Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -99,6 +147,13 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Right: Actions */}
           <div className="flex items-center gap-4 md:gap-6">
+            <button
+              onClick={toggleMute}
+              className="hover:text-primary transition-colors p-2 text-foreground/60"
+              title={isMuted ? "Activer le son" : "Couper le son"}
+            >
+              {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} className="animate-pulse" />}
+            </button>
             <button className="hover:text-primary transition-colors p-2">
               <Search size={20} strokeWidth={2.5} />
             </button>
@@ -300,6 +355,14 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </footer>
+
+      {/* Background Music */}
+      <audio
+        ref={audioRef}
+        src="https://cdn.pixabay.com/audio/2022/01/21/audio_3177674621.mp3"
+        loop
+        preload="auto"
+      />
 
       {/* Floating WhatsApp Button */}
       <a
