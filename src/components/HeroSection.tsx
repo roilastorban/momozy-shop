@@ -5,20 +5,18 @@ import { Link } from 'react-router-dom';
 import { ROUTE_PATHS } from '@/lib/index';
 import { IMAGES } from '@/assets/images';
 import { ScratchBrutal } from './ScratchBrutal';
-import { useGrayscaleToColor } from '@/hooks/useGrayscaleToColor';
 
 /**
  * HeroSection Component
  * 
  * Main hero section with:
- * - Parallax background with grayscale-to-color transition
+ * - Parallax background with autoplaying video
  * - Scratch brutal animations on geometric elements
  * - Responsive layout with CTA buttons
  * - Scroll indicator and status information
  */
 export function HeroSection() {
   const { scrollY } = useScroll();
-  const heroImageRef = useGrayscaleToColor();
   
   // Parallax effects for depth and visual interest
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
@@ -27,7 +25,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full flex items-center overflow-hidden bg-background">
-      {/* Background Layer with Parallax and Grayscale-to-Color Transition */}
+      {/* Background Layer with Parallax and Video */}
       <motion.div 
         style={{ y: y1, scale }}
         className="absolute inset-0 z-0"
@@ -35,13 +33,17 @@ export function HeroSection() {
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80 z-10" />
         
-        {/* Hero background image with grayscale-to-color transition on scroll */}
-        <img 
-          ref={heroImageRef}
-          src={IMAGES.HERO_BACKGROUND_1}
-          alt="Urban Streetwear Scene"
+        {/* Hero background video with autoplay and loop */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover opacity-30"
-        />
+        >
+          <source src="/momozy.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </motion.div>
 
       {/* Geometric Brutalist Overlays with Scratch Animations */}
