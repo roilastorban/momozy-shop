@@ -89,7 +89,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Section 4: Best Sellers (Conversion Grid) */}
-      <section className="py-24 px-4 md:px-8">
+      <section className="py-24 px-4 md:px-8 overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-2xl">
             <span className="text-primary font-mono text-sm uppercase tracking-[0.2em] mb-4 block">[ ÉDITIONS LIMITÉES ]</span>
@@ -187,7 +187,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Section 7: Reassurance (The Service) */}
-      <section className="py-12 border-y border-border">
+      <section className="py-12 border-y border-border overflow-hidden">
         <div className="px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="flex flex-col items-start gap-4">

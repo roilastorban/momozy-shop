@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { CartDrawer } from "./CartDrawer";
 import { NewsletterPopup } from "./NewsletterPopup";
 import { CookieConsent } from "./CookieConsent";
+import { ScratchToRevealLoader } from "./ScratchToRevealLoader";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -39,6 +40,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isSiteRevealed, setIsSiteRevealed] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { getTotalItems } = useCart();
   const location = useLocation();
@@ -73,6 +75,28 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0;
+
+      // Setup Media Session API
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: 'Momozy Vibes',
+          artist: 'Momozy Store',
+          album: 'Elite Streetwear',
+          artwork: [
+            { src: '/cover.png', sizes: '512x512', type: 'image/png' },
+          ]
+        });
+
+        // Add action handlers for better control
+        navigator.mediaSession.setActionHandler('play', () => {
+          audioRef.current?.play();
+          setIsMuted(false);
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+          audioRef.current?.pause();
+          setIsMuted(true);
+        });
+      }
     }
 
     // Attempt to start audio on first interaction if not muted
@@ -117,7 +141,16 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans overflow-x-hidden relative">
+      {/* Brutalist Scratch Loader */}
+      <ScratchToRevealLoader onComplete={() => {
+        setIsSiteRevealed(true);
+        // Start audio if not muted when site is revealed
+        if (audioRef.current && !isMuted) {
+          audioRef.current.play().catch(err => console.log("Autoplay blocked", err));
+        }
+      }} />
+
       <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         {/* Top Bar Announcement */}
         <div className="w-full bg-black/40 backdrop-blur-md text-white py-2 overflow-hidden border-b border-white/10 pointer-events-auto">
@@ -266,7 +299,7 @@ export default function Layout({ children }: LayoutProps) {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow overflow-x-hidden relative">
         {children}
       </main>
 

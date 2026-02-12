@@ -66,7 +66,7 @@ const BrandsPage: React.FC = () => {
       </section>
 
       {/* Brand Grid Selector Section */}
-      <section className="py-24 border-b border-border bg-card/30">
+      <section className="py-24 border-b border-border bg-card/30 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="max-w-xl">
@@ -128,7 +128,7 @@ const BrandsPage: React.FC = () => {
       </section>
 
       {/* Filtered Products Section */}
-      <section className="py-24 bg-background" id="brand-products">
+      <section className="py-24 bg-background overflow-hidden" id="brand-products">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ const BrandsPage: React.FC = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-24 border-t border-border">
+      <section className="py-24 border-t border-border overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="bg-card border border-border p-12 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-10">

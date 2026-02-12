@@ -79,7 +79,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
       Pourquoi ce succès ? Parce que le style brutaliste résonne avec la réalité urbaine. Il est résistant, il est honnête, et il impose le respect. Les pièces que nous sélectionnons chez Momozy Shop ne sont pas de simples vêtements ; ce sont des armures modernes pour l'élite urbaine qui navigue dans la jungle de Calavi et de Cotonou.
     `,
-    image: "https://images.unsplash.com/photo-1552061081-998371c91977?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
     date: "12 Mars 2026",
     author: "Momozy Editor",
     category: "Tendances",
@@ -98,7 +98,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
       L'objectif est de créer une impression de puissance, pas de négligence. Explorez notre collection 'Hauts' pour trouver les pièces de base de votre garde-robe oversize.
     `,
-    image: "https://images.unsplash.com/photo-1529139570274-db1709405b58?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?q=80&w=1000&auto=format&fit=crop",
     date: "08 Mars 2026",
     author: "Style Guru",
     category: "Guide",
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
     brand: "Stone Island",
     price: 35000,
     category: "bas",
-    image: "https://images.unsplash.com/photo-1624372927414-039f7236573c?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1000&auto=format&fit=crop",
     description: "Ingénierie textile de pointe. Ce cargo Stone Island en coton lourd offre une résistance aux éléments sans compromis sur le style. Poches cargo asymétriques et badge amovible iconique sur la jambe gauche.",
     sizes: ["S", "M", "L"],
     stockStatus: "in-stock",
@@ -191,7 +191,7 @@ export const PRODUCTS: Product[] = [
     brand: "Diesel",
     price: 55000,
     category: "hauts",
-    image: "https://images.unsplash.com/photo-1576905341935-422bc79d2a9d?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1000&auto=format&fit=crop",
     description: "Brut et authentique. Cette veste Diesel explore les limites du denim avec un travail manuel sur les usures et les délavages. Chaque pièce raconte une histoire différente. Boutons métalliques gravés au laser.",
     sizes: ["M", "L", "XL"],
     stockStatus: "in-stock",

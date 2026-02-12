@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATHS } from '@/lib/index';
@@ -17,31 +17,42 @@ import { ScratchBrutal } from './ScratchBrutal';
  */
 export function HeroSection() {
   const { scrollY } = useScroll();
+  const [currentImage, setCurrentImage] = useState(0);
+  const heroImages = ['/herosection1.jpg', '/herosection2.jpg'];
   
+  // Image transformation loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000); // 5 seconds per image
+    return () => clearInterval(timer);
+  }, []);
+
   // Parallax effects for depth and visual interest
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 500], [1, 1.1]);
+  const scaleEffect = useTransform(scrollY, [0, 500], [1, 1.1]);
 
   return (
     <section className="relative min-h-screen w-full flex items-center overflow-hidden bg-background">
-      {/* Background Layer with Parallax and Video */}
+      {/* Background Layer with Parallax and Image Transition */}
       <motion.div 
-        style={{ y: y1, scale }}
+        style={{ y: y1, scale: scaleEffect }}
         className="absolute inset-0 z-0 bg-black"
       >
-        {/* Hero background video with autoplay and loop */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-50 z-0"
-        >
-          <source src="/momozy.mp4" type="video/mp4" />
-        </video>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentImage}
+            src={heroImages[currentImage]}
+            initial={{ opacity: 0, scale: 1.1, filter: 'grayscale(100%) blur(10px)' }}
+            animate={{ opacity: 0.5, scale: 1, filter: 'grayscale(0%) blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.95, filter: 'grayscale(100%) blur(10px)' }}
+            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        </AnimatePresence>
 
-        {/* Gradient overlay for text readability - placed above video */}
+        {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-10" />
       </motion.div>
 

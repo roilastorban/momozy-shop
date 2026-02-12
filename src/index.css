@@ -167,11 +167,11 @@
   }
 
   html {
-    @apply scroll-smooth antialiased;
+    @apply scroll-smooth antialiased overflow-x-hidden;
   }
 
   body {
-    @apply bg-background text-foreground font-sans min-h-screen overflow-x-hidden;
+    @apply bg-background text-foreground font-sans min-h-screen overflow-x-hidden w-full;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
