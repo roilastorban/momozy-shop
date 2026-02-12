@@ -75,6 +75,28 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0;
+
+      // Setup Media Session API
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: 'Momozy Vibes',
+          artist: 'Momozy Store',
+          album: 'Elite Streetwear',
+          artwork: [
+            { src: '/cover.png', sizes: '512x512', type: 'image/png' },
+          ]
+        });
+
+        // Add action handlers for better control
+        navigator.mediaSession.setActionHandler('play', () => {
+          audioRef.current?.play();
+          setIsMuted(false);
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+          audioRef.current?.pause();
+          setIsMuted(true);
+        });
+      }
     }
 
     // Attempt to start audio on first interaction if not muted
