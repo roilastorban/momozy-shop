@@ -381,6 +381,13 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
           </div>
+
+          {/* Credits */}
+          <div className="mt-12 pt-8 border-t border-border/20 text-center">
+            <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em]">
+              Réalisé par G & G
+            </p>
+          </div>
         </div>
       </footer>
 
