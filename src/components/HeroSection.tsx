@@ -152,7 +152,7 @@ export function HeroSection() {
               
               {/* Secondary CTA - Momozy Gang (Light intensity scratch) */}
               <ScratchBrutal intensity="light" delay={1.7} className="w-full sm:w-auto">
-                <Link to={ROUTE_PATHS.BRANDS}>
+                <Link to={ROUTE_PATHS.ABOUT}>
                   <motion.button
                     whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
                     className="w-full border border-white/20 px-8 py-5 font-bold uppercase tracking-tighter"
