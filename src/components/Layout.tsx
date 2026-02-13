@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ShoppingBag, 
-  Menu, 
-  X, 
-  Search, 
-  User, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  ChevronRight,
   ArrowUpRight,
+  ChevronRight,
+  Mail,
+  MapPin,
+  Menu, 
+  Phone,
+  Search, 
+  ShoppingBag,
+  User, 
   Volume2,
-  VolumeX
+  VolumeX,
+  X
 } from "lucide-react";
 import { SiWhatsapp, SiInstagram, SiFacebook } from "react-icons/si";
 import { ROUTE_PATHS, CATEGORIES, PRODUCTS, formatPrice } from "@/lib/index";
@@ -174,7 +174,8 @@ export default function Layout({ children }: LayoutProps) {
         }
       }} />
 
-      <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+      {/* Global Navigation Container */}
+      <div className="fixed top-0 left-0 w-full z-[100] pointer-events-none">
         {/* Top Bar Announcement */}
         <div className="w-full bg-black/40 backdrop-blur-md text-white py-2 overflow-hidden border-b border-white/10 pointer-events-auto">
           <motion.div
@@ -286,115 +287,128 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      {/* Search Bar Overlay */}
+      </div>
+
+      {/* Search Bar Overlay - Moved to top-level for better positioning */}
       <AnimatePresence>
         {isSearchOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="w-full bg-black/95 backdrop-blur-xl border-b border-white/10 pointer-events-auto overflow-hidden"
-          >
-            <div className="container mx-auto px-4 py-8 md:py-12 relative">
-              <button
-                onClick={() => setIsSearchOpen(false)}
-                className="absolute top-4 right-4 md:top-8 md:right-8 p-2 text-white/40 hover:text-primary transition-colors z-10"
-                title="Fermer la recherche"
-              >
-                <X size={24} />
-              </button>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSearchOpen(false)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90]"
+            />
 
-              <div className="max-w-4xl mx-auto">
-                <div className="relative group">
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder="RECHERCHER UN STYLE, UNE MARQUE..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-transparent border-b-2 border-white/20 py-4 text-2xl md:text-5xl font-black uppercase tracking-tighter outline-none focus:border-primary transition-colors placeholder:text-white/20"
-                  />
-                  <div className="absolute right-0 bottom-4 flex items-center gap-4">
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="p-2 hover:text-primary transition-colors"
-                      >
-                        <X size={20} />
-                      </button>
+            <motion.div
+              initial={{ y: "-100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "-100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed top-0 left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 z-[110] overflow-hidden"
+            >
+              <div className="container mx-auto px-4 py-12 md:py-20 relative">
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="absolute top-6 right-6 md:top-10 md:right-10 p-2 text-white/40 hover:text-primary transition-colors z-10"
+                  title="Fermer la recherche"
+                >
+                  <X size={32} />
+                </button>
+
+                <div className="max-w-4xl mx-auto">
+                  <div className="relative group">
+                    <input
+                      autoFocus
+                      type="text"
+                      placeholder="RECHERCHER UN STYLE, UNE MARQUE..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-transparent border-b-2 border-white/20 py-4 text-2xl md:text-5xl font-black uppercase tracking-tighter outline-none focus:border-primary transition-colors placeholder:text-white/20"
+                    />
+                    <div className="absolute right-0 bottom-4 flex items-center gap-4">
+                      {searchQuery && (
+                        <button
+                          onClick={() => setSearchQuery("")}
+                          className="p-2 hover:text-primary transition-colors"
+                        >
+                          <X size={20} />
+                        </button>
+                      )}
+                      <Search size={32} className="text-white/40 group-focus-within:text-primary transition-colors" />
+                    </div>
+                  </div>
+
+                  {/* Real-time Results */}
+                  <div className="mt-8 md:mt-12 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                    {searchQuery.trim() !== "" ? (
+                      searchResults.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="md:col-span-2 flex justify-between items-end mb-4 border-b border-white/5 pb-2">
+                            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Résultats suggérés ({searchResults.length})</span>
+                            <Link
+                              to={ROUTE_PATHS.SHOP}
+                              onClick={() => setIsSearchOpen(false)}
+                              className="text-[10px] font-mono text-primary hover:underline uppercase tracking-widest"
+                            >
+                              Voir tout le catalogue
+                            </Link>
+                          </div>
+                          {searchResults.map((product) => (
+                            <Link
+                              key={product.id}
+                              to={ROUTE_PATHS.PRODUCT_DETAIL.replace(":id", product.id)}
+                              onClick={() => setIsSearchOpen(false)}
+                              className="flex items-center gap-4 p-3 border border-white/5 hover:border-primary/50 hover:bg-white/5 transition-all group"
+                            >
+                              <div className="w-16 h-20 bg-secondary overflow-hidden shrink-0 border border-white/10">
+                                <img
+                                  src={product.image}
+                                  alt={product.name}
+                                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                                />
+                              </div>
+                              <div className="flex flex-col min-w-0">
+                                <span className="text-[10px] font-mono text-primary uppercase tracking-tighter">{product.brand}</span>
+                                <span className="text-sm font-bold uppercase truncate">{product.name}</span>
+                                <span className="text-xs font-mono text-muted-foreground mt-1">{formatPrice(product.price)}</span>
+                              </div>
+                              <ArrowUpRight size={16} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                            </Link>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="py-12 text-center border border-dashed border-white/10">
+                          <p className="font-mono text-sm text-muted-foreground uppercase tracking-widest">
+                            Aucun résultat pour "{searchQuery}"
+                          </p>
+                        </div>
+                      )
+                    ) : (
+                      <div className="flex flex-col items-center py-8">
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-6">Collections Populaires</span>
+                        <div className="flex flex-wrap justify-center gap-3">
+                          {CATEGORIES.slice(1).map((cat) => (
+                            <button
+                              key={cat.slug}
+                              onClick={() => setSearchQuery(cat.name)}
+                              className="px-6 py-3 border border-white/10 hover:border-primary text-xs font-bold uppercase tracking-tighter transition-all hover:bg-white/5"
+                            >
+                              {cat.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     )}
-                    <Search size={24} className="text-white/40 group-focus-within:text-primary transition-colors" />
                   </div>
                 </div>
-
-                {/* Real-time Results */}
-                <div className="mt-8 md:mt-12">
-                  {searchQuery.trim() !== "" ? (
-                    searchResults.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2 flex justify-between items-end mb-4 border-b border-white/5 pb-2">
-                          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Résultats suggérés ({searchResults.length})</span>
-                          <Link
-                            to={ROUTE_PATHS.SHOP}
-                            onClick={() => setIsSearchOpen(false)}
-                            className="text-[10px] font-mono text-primary hover:underline uppercase tracking-widest"
-                          >
-                            Voir tout le catalogue
-                          </Link>
-                        </div>
-                        {searchResults.map((product) => (
-                          <Link
-                            key={product.id}
-                            to={ROUTE_PATHS.PRODUCT_DETAIL.replace(":id", product.id)}
-                            onClick={() => setIsSearchOpen(false)}
-                            className="flex items-center gap-4 p-3 border border-white/5 hover:border-primary/50 hover:bg-white/5 transition-all group"
-                          >
-                            <div className="w-16 h-20 bg-secondary overflow-hidden shrink-0 border border-white/10">
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                              />
-                            </div>
-                            <div className="flex flex-col min-w-0">
-                              <span className="text-[10px] font-mono text-primary uppercase tracking-tighter">{product.brand}</span>
-                              <span className="text-sm font-bold uppercase truncate">{product.name}</span>
-                              <span className="text-xs font-mono text-muted-foreground mt-1">{formatPrice(product.price)}</span>
-                            </div>
-                            <ArrowUpRight size={16} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
-                          </Link>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="py-12 text-center border border-dashed border-white/10">
-                        <p className="font-mono text-sm text-muted-foreground uppercase tracking-widest">
-                          Aucun résultat pour "{searchQuery}"
-                        </p>
-                      </div>
-                    )
-                  ) : (
-                    <div className="flex flex-col items-center py-8">
-                      <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-6">Collections Populaires</span>
-                      <div className="flex flex-wrap justify-center gap-3">
-                        {CATEGORIES.slice(1).map((cat) => (
-                          <button
-                            key={cat.slug}
-                            onClick={() => setSearchQuery(cat.name)}
-                            className="px-6 py-3 border border-white/10 hover:border-primary text-xs font-bold uppercase tracking-tighter transition-all hover:bg-white/5"
-                          >
-                            {cat.name}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </div>
 
       {/* Mobile Navigation Overlay */}
       <AnimatePresence>
